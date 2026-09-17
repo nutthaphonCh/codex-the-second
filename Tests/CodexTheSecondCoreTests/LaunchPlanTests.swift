@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import CodexProfileLauncherCore
+@testable import CodexTheSecondCore
 
 @Suite("Launch plan construction")
 struct LaunchPlanTests {
@@ -22,7 +22,7 @@ struct LaunchPlanTests {
             name: "Personal",
             slug: slug,
             appName: "Codex Personal",
-            bundleIdentifier: "com.local.codex-profile-launcher.personal",
+            bundleIdentifier: "com.local.codex-the-second.personal",
             codexHome: codexHome,
             electronUserDataPath: electronUserDataPath
         )
@@ -76,10 +76,10 @@ struct LaunchPlanTests {
     @Test func stripsLauncherOwnedVariables() throws {
         let plan = try makePlan(makeProfile(), environment: [
             CodexAppLocator.overrideEnvironmentKey: "/Applications/Codex.app",
-            "CODEX_PROFILE_LAUNCHER_PROFILE_FILE": "/tmp/p.json",
+            "CODEX_THE_SECOND_PROFILE_FILE": "/tmp/p.json",
         ])
         #expect(plan.environment[CodexAppLocator.overrideEnvironmentKey] == nil)
-        #expect(plan.environment["CODEX_PROFILE_LAUNCHER_PROFILE_FILE"] == nil)
+        #expect(plan.environment["CODEX_THE_SECOND_PROFILE_FILE"] == nil)
     }
 
     @Test func diagnosticsNeverIncludeInheritedEnvironment() throws {

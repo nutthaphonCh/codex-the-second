@@ -2,21 +2,21 @@
 import PackageDescription
 
 let package = Package(
-    name: "CodexProfileLauncher",
+    name: "CodexTheSecond",
     platforms: [.macOS(.v12)],
     products: [
-        .executable(name: "CodexProfileLauncher", targets: ["CodexProfileLauncher"]),
-        .library(name: "CodexProfileLauncherCore", targets: ["CodexProfileLauncherCore"]),
+        .executable(name: "CodexTheSecond", targets: ["CodexTheSecond"]),
+        .library(name: "CodexTheSecondCore", targets: ["CodexTheSecondCore"]),
     ],
     targets: [
-        .target(name: "CodexProfileLauncherCore"),
+        .target(name: "CodexTheSecondCore"),
         .executableTarget(
-            name: "CodexProfileLauncher",
-            dependencies: ["CodexProfileLauncherCore"]
+            name: "CodexTheSecond",
+            dependencies: ["CodexTheSecondCore"]
         ),
         .testTarget(
-            name: "CodexProfileLauncherCoreTests",
-            dependencies: ["CodexProfileLauncherCore"]
+            name: "CodexTheSecondCoreTests",
+            dependencies: ["CodexTheSecondCore"]
         ),
     ]
 )

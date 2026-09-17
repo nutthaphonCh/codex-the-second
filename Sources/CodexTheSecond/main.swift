@@ -1,5 +1,5 @@
 import AppKit
-import CodexProfileLauncherCore
+import CodexTheSecondCore
 import Foundation
 
 /// Read from the generated bundle so there is one source of truth for the
@@ -23,7 +23,7 @@ func presentAlert(title: String, message: String, style: NSAlert.Style = .critic
 
 /// Suppresses the GUI alert. Set by CI and useful over SSH, where a modal
 /// alert would block forever with nobody to dismiss it.
-let alertsDisabledEnvironmentKey = "CODEX_PROFILE_LAUNCHER_NO_ALERTS"
+let alertsDisabledEnvironmentKey = "CODEX_THE_SECOND_NO_ALERTS"
 
 func alertsAreAvailable() -> Bool {
     let environment = ProcessInfo.processInfo.environment
@@ -44,11 +44,11 @@ func fail(_ error: LauncherError) -> Never {
 
 /// Resolves the profile for this launcher.
 ///
-/// `CODEX_PROFILE_LAUNCHER_PROFILE_FILE` exists so the binary can be exercised
+/// `CODEX_THE_SECOND_PROFILE_FILE` exists so the binary can be exercised
 /// straight out of `swift build`, without an app bundle, during verification.
 func loadProfile() throws -> Profile {
     let environment = ProcessInfo.processInfo.environment
-    if let override = environment["CODEX_PROFILE_LAUNCHER_PROFILE_FILE"],
+    if let override = environment["CODEX_THE_SECOND_PROFILE_FILE"],
        !override.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
         let path = PathResolver.expand(override, homeDirectory: NSHomeDirectory())
         return try Profile.load(contentsOf: URL(fileURLWithPath: path))
@@ -64,12 +64,12 @@ func run() {
     let arguments = Array(CommandLine.arguments.dropFirst())
 
     if arguments.contains("--version") {
-        print("CodexProfileLauncher \(launcherVersion)")
+        print("CodexTheSecond \(launcherVersion)")
         exit(0)
     }
     if arguments.contains("--help") || arguments.contains("-h") {
         print("""
-        CodexProfileLauncher \(launcherVersion)
+        CodexTheSecond \(launcherVersion)
 
         Launches your existing Codex Desktop installation with an isolated
         profile. Normally there is nothing to run by hand — open the generated

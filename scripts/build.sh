@@ -62,7 +62,7 @@ echo "==> Building ${APP_NAME} ${VERSION} (${ARCH}) from ${PROFILE_FILE}"
 # ---------------------------------------------------------------------------
 
 # Builds one architecture into its own scratch directory. The resulting binary
-# is always at <scratch>/release/CodexProfileLauncher.
+# is always at <scratch>/release/CodexTheSecond.
 build_slice() {
   local arch="$1" scratch="$2"
   echo "==> Compiling ${arch}"
@@ -76,18 +76,18 @@ case "${ARCH}" in
   universal)
     build_slice arm64  "${BUILD_DIR}/arm64"
     build_slice x86_64 "${BUILD_DIR}/x86_64"
-    BINARY="${BUILD_DIR}/universal/CodexProfileLauncher"
+    BINARY="${BUILD_DIR}/universal/CodexTheSecond"
     mkdir -p "$(dirname "${BINARY}")"
     # `swift build --arch a --arch b` needs a full Xcode installation; lipo
     # over two single-arch builds works with Command Line Tools alone.
     lipo -create \
-      "${BUILD_DIR}/arm64/release/CodexProfileLauncher" \
-      "${BUILD_DIR}/x86_64/release/CodexProfileLauncher" \
+      "${BUILD_DIR}/arm64/release/CodexTheSecond" \
+      "${BUILD_DIR}/x86_64/release/CodexTheSecond" \
       -output "${BINARY}"
     ;;
   arm64|x86_64)
     build_slice "${ARCH}" "${BUILD_DIR}/${ARCH}"
-    BINARY="${BUILD_DIR}/${ARCH}/release/CodexProfileLauncher"
+    BINARY="${BUILD_DIR}/${ARCH}/release/CodexTheSecond"
     ;;
   *)
     echo "Unsupported --arch: ${ARCH} (expected universal, arm64 or x86_64)" >&2
@@ -103,8 +103,8 @@ APP_BUNDLE="${OUTPUT_DIR}/${APP_NAME}.app"
 rm -rf "${APP_BUNDLE}"
 mkdir -p "${APP_BUNDLE}/Contents/MacOS" "${APP_BUNDLE}/Contents/Resources"
 
-cp "${BINARY}" "${APP_BUNDLE}/Contents/MacOS/CodexProfileLauncher"
-chmod +x "${APP_BUNDLE}/Contents/MacOS/CodexProfileLauncher"
+cp "${BINARY}" "${APP_BUNDLE}/Contents/MacOS/CodexTheSecond"
+chmod +x "${APP_BUNDLE}/Contents/MacOS/CodexTheSecond"
 
 # The profile is the launcher's only configuration: it is read back at runtime
 # from Contents/Resources/profile.json.
@@ -127,7 +127,7 @@ cat > "${APP_BUNDLE}/Contents/Info.plist" <<PLIST
 	<key>CFBundleDisplayName</key>
 	<string>${APP_NAME}</string>
 	<key>CFBundleExecutable</key>
-	<string>CodexProfileLauncher</string>
+	<string>CodexTheSecond</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
@@ -159,4 +159,4 @@ plutil -lint "${APP_BUNDLE}/Contents/Info.plist" > /dev/null
 "${REPO_ROOT}/scripts/sign.sh" "${APP_BUNDLE}"
 
 echo "==> Built ${APP_BUNDLE}"
-lipo -info "${APP_BUNDLE}/Contents/MacOS/CodexProfileLauncher" 2>/dev/null || true
+lipo -info "${APP_BUNDLE}/Contents/MacOS/CodexTheSecond" 2>/dev/null || true

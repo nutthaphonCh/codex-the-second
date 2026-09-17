@@ -1,5 +1,5 @@
 import Testing
-@testable import CodexProfileLauncherCore
+@testable import CodexTheSecondCore
 
 @Suite("Path resolution")
 struct PathResolverTests {

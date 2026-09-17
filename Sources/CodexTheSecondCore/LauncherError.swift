@@ -74,7 +74,7 @@ public enum LauncherError: Error, Equatable {
             Please install Codex Desktop, or pin its location by creating a file \
             containing the full path to the Codex application bundle at:
 
-             ~/Library/Application Support/CodexProfileLauncher/codex-app-path
+             ~/Library/Application Support/CodexTheSecond/codex-app-path
             """
         case let .codexPathInvalid(path, reason):
             return """

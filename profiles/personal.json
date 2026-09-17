@@ -2,7 +2,7 @@
   "name": "Personal",
   "slug": "personal",
   "appName": "Codex Personal",
-  "bundleIdentifier": "com.local.codex-profile-launcher.personal",
+  "bundleIdentifier": "com.local.codex-the-second.personal",
   "codexHome": "~/.codex-personal",
   "electronUserDataPath": "~/.codex-personal/electron-user-data",
   "icon": {

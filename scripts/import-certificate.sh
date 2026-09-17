@@ -12,7 +12,7 @@ set -euo pipefail
 : "${MACOS_CERTIFICATE_P12:?MACOS_CERTIFICATE_P12 is not set}"
 : "${MACOS_CERTIFICATE_PASSWORD:?MACOS_CERTIFICATE_PASSWORD is not set}"
 
-KEYCHAIN_PATH="${RUNNER_TEMP:-${TMPDIR:-/tmp}}/codex-profile-launcher-signing.keychain-db"
+KEYCHAIN_PATH="${RUNNER_TEMP:-${TMPDIR:-/tmp}}/codex-the-second-signing.keychain-db"
 # Random, single-use: this keychain exists only for the life of the job.
 KEYCHAIN_PASSWORD="$(openssl rand -base64 24)"
 CERTIFICATE_PATH="$(mktemp -t signing-certificate).p12"

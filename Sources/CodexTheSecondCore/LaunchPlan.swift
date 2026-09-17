@@ -40,8 +40,8 @@ public enum LaunchPlanBuilder {
     /// Codex's own environment.
     static let launcherOwnedEnvironmentKeys = [
         CodexAppLocator.overrideEnvironmentKey,
-        "CODEX_PROFILE_LAUNCHER_PROFILE_FILE",
-        "CODEX_PROFILE_LAUNCHER_NO_ALERTS",
+        "CODEX_THE_SECOND_PROFILE_FILE",
+        "CODEX_THE_SECOND_NO_ALERTS",
     ]
 
     public static func validate(profile: Profile, homeDirectory: String) throws {

@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import CodexProfileLauncherCore
+@testable import CodexTheSecondCore
 
 @Suite("Shipped profiles")
 struct ProfileTests {
@@ -43,7 +43,7 @@ struct ProfileTests {
             name: "Alt",
             slug: "alt",
             appName: "Codex Alt",
-            bundleIdentifier: "com.local.codex-profile-launcher.alt",
+            bundleIdentifier: "com.local.codex-the-second.alt",
             codexHome: "~/.codex-alt",
             electronUserDataPath: "~/.codex-alt/electron-user-data",
             icon: IconSpec(label: "CA", tintTop: "#111111", tintBottom: "#222222")

@@ -21,7 +21,7 @@ check() {
 
 echo "==> Validating ${APP_BUNDLE}"
 
-EXECUTABLE="${APP_BUNDLE}/Contents/MacOS/CodexProfileLauncher"
+EXECUTABLE="${APP_BUNDLE}/Contents/MacOS/CodexTheSecond"
 INFO_PLIST="${APP_BUNDLE}/Contents/Info.plist"
 
 check "bundle exists"                test -d "${APP_BUNDLE}"
@@ -56,14 +56,14 @@ else
 fi
 
 # Alerts are suppressed so a failure path cannot block on a modal dialog here.
-export CODEX_PROFILE_LAUNCHER_NO_ALERTS=1
+export CODEX_THE_SECOND_NO_ALERTS=1
 
 echo "  ..    --version reports: $("${EXECUTABLE}" --version)"
 
 # With Codex pinned to a path that does not exist, the launcher must fail
 # cleanly and explain itself rather than hanging or exiting silently.
 set +e
-output="$(CODEX_PROFILE_LAUNCHER_CODEX_APP=/nonexistent/Codex.app "${EXECUTABLE}" --print-plan 2>&1)"
+output="$(CODEX_THE_SECOND_CODEX_APP=/nonexistent/Codex.app "${EXECUTABLE}" --print-plan 2>&1)"
 status=$?
 set -e
 if [[ ${status} -ne 0 && "${output}" == *"Codex could not be found"* ]]; then

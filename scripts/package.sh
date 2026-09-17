@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Packages a built .app into distributable artifacts.
 #
-#   ./scripts/package.sh                 -> dist/Codex-Profile-Launcher-v0.1.0.dmg
-#                                           dist/Codex-Profile-Launcher-v0.1.0.zip
+#   ./scripts/package.sh                 -> dist/Codex-the-2nd-v0.2.0.dmg
+#                                           dist/Codex-the-2nd-v0.2.0.zip
 #                                           dist/SHA256SUMS.txt
 #
 # The DMG contains the launcher and an Applications symlink, so installing is
@@ -46,7 +46,7 @@ if [[ ! -d "${APP_BUNDLE}" ]]; then
   exit 1
 fi
 
-ARTIFACT_BASE="Codex-Profile-Launcher-v${VERSION}"
+ARTIFACT_BASE="Codex-the-2nd-v${VERSION}"
 DMG_PATH="${OUTPUT_DIR}/${ARTIFACT_BASE}.dmg"
 ZIP_PATH="${OUTPUT_DIR}/${ARTIFACT_BASE}.zip"
 

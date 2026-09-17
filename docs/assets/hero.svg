@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" role="img" aria-label="The 2nd Codex - two Codex accounts running side by side in separate, isolated profiles">
-  <title>The 2nd Codex</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" role="img" aria-label="Codex the 2nd - two Codex accounts running side by side in separate, isolated profiles">
+  <title>Codex the 2nd</title>
 
   <defs>
     <linearGradient id="space" x1="0" y1="0" x2="0.6" y2="1">
@@ -237,7 +237,7 @@
 
     <!-- ── Header ───────────────────────────────────────────── -->
     <text class="sans eyebrow" x="600" y="74"  text-anchor="middle">MACOS &#183; OPEN SOURCE &#183; MIT</text>
-    <text class="sans title"   x="600" y="130" text-anchor="middle">The 2nd Codex</text>
+    <text class="sans title"   x="600" y="130" text-anchor="middle">Codex the 2nd</text>
     <text class="sans sub"     x="600" y="166" text-anchor="middle">Two Codex accounts. Side by side. At the same time.</text>
 
     <!-- ── Left world ───────────────────────────────────────── -->

@@ -83,15 +83,15 @@ jobs:
 
       - name: Notarize and staple
         # Exits successfully without doing anything when credentials are absent.
-        run: ./scripts/notarize.sh "dist/Codex-Profile-Launcher-v${{ steps.version.outputs.version }}.dmg"
+        run: ./scripts/notarize.sh "dist/Codex-the-2nd-v${{ steps.version.outputs.version }}.dmg"
 
       - name: Write checksums
         # Written after notarization, which staples a ticket and changes the hash.
         working-directory: dist
         run: |
           shasum -a 256 \
-            "Codex-Profile-Launcher-v${{ steps.version.outputs.version }}.dmg" \
-            "Codex-Profile-Launcher-v${{ steps.version.outputs.version }}.zip" \
+            "Codex-the-2nd-v${{ steps.version.outputs.version }}.dmg" \
+            "Codex-the-2nd-v${{ steps.version.outputs.version }}.zip" \
             > SHA256SUMS.txt
           cat SHA256SUMS.txt
 
@@ -108,7 +108,7 @@ jobs:
           cat > release-notes.md <<NOTES
           ## Install
 
-          1. Download \`Codex-Profile-Launcher-v${VERSION}.dmg\`
+          1. Download \`Codex-the-2nd-v${VERSION}.dmg\`
           2. Open it and drag **Codex Personal** into **Applications**
           3. Open **Codex Personal** and sign in with your second account
 
@@ -138,6 +138,6 @@ jobs:
           gh release create "v${VERSION}" \
             --title "v${VERSION}" \
             --notes-file release-notes.md \
-            "dist/Codex-Profile-Launcher-v${VERSION}.dmg" \
-            "dist/Codex-Profile-Launcher-v${VERSION}.zip" \
+            "dist/Codex-the-2nd-v${VERSION}.dmg" \
+            "dist/Codex-the-2nd-v${VERSION}.zip" \
             "dist/SHA256SUMS.txt"

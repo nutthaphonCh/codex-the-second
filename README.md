@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="docs/assets/hero.svg" alt="The 2nd Codex - two Codex accounts, side by side, at the same time. Codex.app keeps ~/.codex untouched; Codex Personal.app gets its own ~/.codex-personal." width="900">
+<img src="docs/assets/hero.svg" alt="Codex the 2nd - two Codex accounts, side by side, at the same time. Codex.app keeps ~/.codex untouched; Codex Personal.app gets its own ~/.codex-personal." width="900">
 
-# Codex Profile Launcher
+# Codex the 2nd
 
 [![CI](https://github.com/nutthaphonCh/codex-the-second/actions/workflows/ci.yml/badge.svg)](https://github.com/nutthaphonCh/codex-the-second/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/nutthaphonCh/codex-the-second?color=7C5CFF)](https://github.com/nutthaphonCh/codex-the-second/releases/latest)
@@ -73,7 +73,7 @@ session isolation were each checked against the real app. See
 
 ## Install
 
-1. Grab `Codex-Profile-Launcher-vX.Y.Z.dmg` from
+1. Grab `Codex-the-2nd-vX.Y.Z.dmg` from
    [Releases](https://github.com/nutthaphonCh/codex-the-second/releases/latest)
 2. Open it, drag **Codex Personal** into **Applications**
 3. Launch it, sign in with your second account
@@ -152,7 +152,7 @@ cp profiles/work.json.example profiles/work.json
   "name": "Work",
   "slug": "work",
   "appName": "Codex Work",
-  "bundleIdentifier": "com.local.codex-profile-launcher.work",
+  "bundleIdentifier": "com.local.codex-the-second.work",
   "codexHome": "~/.codex-work",
   "electronUserDataPath": "~/.codex-work/electron-user-data",
   "icon": { "label": "CW", "tintTop": "#2FB3A5", "tintBottom": "#0C3A36" }

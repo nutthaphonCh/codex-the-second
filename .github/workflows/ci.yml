@@ -47,7 +47,7 @@ jobs:
 
       - name: Verify universal binary
         run: |
-          archs="$(lipo -archs "dist/Codex Personal.app/Contents/MacOS/CodexProfileLauncher")"
+          archs="$(lipo -archs "dist/Codex Personal.app/Contents/MacOS/CodexTheSecond")"
           echo "Architectures: ${archs}"
           for expected in arm64 x86_64; do
             case " ${archs} " in
@@ -71,7 +71,7 @@ jobs:
       - name: Upload build output
         uses: actions/upload-artifact@v4.4.3
         with:
-          name: codex-profile-launcher-ci
+          name: codex-the-second-ci
           path: |
             dist/*.dmg
             dist/*.zip

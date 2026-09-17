@@ -99,11 +99,11 @@ public struct CodexAppLocator {
     public static let knownBundleIdentifiers = ["com.openai.codex"]
 
     /// Environment variable that pins the Codex bundle for one launch.
-    public static let overrideEnvironmentKey = "CODEX_PROFILE_LAUNCHER_CODEX_APP"
+    public static let overrideEnvironmentKey = "CODEX_THE_SECOND_CODEX_APP"
 
     /// Persistent user override, relative to the home directory.
     public static let overrideFileRelativePath =
-        "Library/Application Support/CodexProfileLauncher/codex-app-path"
+        "Library/Application Support/CodexTheSecond/codex-app-path"
 
     private let inspector: BundleInspecting
     private let readOverrideFile: (String) -> String?

@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import CodexProfileLauncherCore
+@testable import CodexTheSecondCore
 
 /// Stands in for a set of installed application bundles.
 private struct StubInspector: BundleInspecting {
@@ -31,7 +31,7 @@ struct CodexAppLocatorTests {
         name: "Personal",
         slug: "personal",
         appName: "Codex Personal",
-        bundleIdentifier: "com.local.codex-profile-launcher.personal",
+        bundleIdentifier: "com.local.codex-the-second.personal",
         codexHome: "~/.codex-personal",
         electronUserDataPath: "~/.codex-personal/electron-user-data"
     )

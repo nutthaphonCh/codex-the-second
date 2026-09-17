@@ -3,7 +3,7 @@
 Unit tests cover profile validation and launch-command construction. They cannot
 prove that two Codex instances really are isolated — that needs the real
 application. This is the procedure, and the results from the run that shipped
-v0.1.0.
+v0.2.0.
 
 > **Do not paste tokens anywhere.** No step below needs to read `auth.json`, and
 > `--print-plan` deliberately prints only `CODEX_HOME` and
@@ -12,7 +12,7 @@ v0.1.0.
 ## 0. Preview the launch without launching
 
 ```bash
-"/Applications/Codex Personal.app/Contents/MacOS/CodexProfileLauncher" --print-plan
+"/Applications/Codex Personal.app/Contents/MacOS/CodexTheSecond" --print-plan
 ```
 
 Confirms which Codex was found and what would be passed to it:
@@ -133,9 +133,9 @@ directory.
 Alerts are suppressed here so the check cannot block on a modal dialog:
 
 ```bash
-CODEX_PROFILE_LAUNCHER_NO_ALERTS=1 \
-CODEX_PROFILE_LAUNCHER_CODEX_APP=/nonexistent/Codex.app \
-  "/Applications/Codex Personal.app/Contents/MacOS/CodexProfileLauncher" --print-plan
+CODEX_THE_SECOND_NO_ALERTS=1 \
+CODEX_THE_SECOND_CODEX_APP=/nonexistent/Codex.app \
+  "/Applications/Codex Personal.app/Contents/MacOS/CodexTheSecond" --print-plan
 ```
 
 Expect exit status 1 and a readable explanation. Run from Finder instead, the
@@ -145,14 +145,14 @@ The safety rail that protects your normal profile:
 
 ```bash
 python3 -c "import json;p=json.load(open('profiles/personal.json'));p['codexHome']='~/.codex';print(json.dumps(p))" > /tmp/bad.json
-CODEX_PROFILE_LAUNCHER_NO_ALERTS=1 CODEX_PROFILE_LAUNCHER_PROFILE_FILE=/tmp/bad.json \
-  "/Applications/Codex Personal.app/Contents/MacOS/CodexProfileLauncher" --print-plan
+CODEX_THE_SECOND_NO_ALERTS=1 CODEX_THE_SECOND_PROFILE_FILE=/tmp/bad.json \
+  "/Applications/Codex Personal.app/Contents/MacOS/CodexTheSecond" --print-plan
 rm /tmp/bad.json
 ```
 
 The launcher must refuse to run rather than share `~/.codex`.
 
-## Results for v0.1.0
+## Results for v0.2.0
 
 Verified on macOS 26.5.2 (Apple Silicon) against Codex Desktop 26.908.40834:
 
@@ -169,6 +169,10 @@ Verified on macOS 26.5.2 (Apple Silicon) against Codex Desktop 26.908.40834:
 | Relaunch focuses the existing instance, no duplicate | Pass |
 | Missing Codex reported, exit 1 | Pass |
 | Profile pointed at `~/.codex` refused | Pass |
+| Two accounts signed in independently | Pass - separate `auth.json`, both `0600` |
+| `~/.codex/auth.json` untouched by the second profile | Pass - unchanged since before the profile existed |
 
-Account-level sign-in (step 4) is the one step that must be done by the account
-owner; it was not performed as part of the release build.
+Step 4 was confirmed with two real accounts: `~/.codex/auth.json` and
+`~/.codex-personal/auth.json` are different files with different contents, and
+the default one was last written before the second profile existed. Neither file
+was read or printed during verification.
