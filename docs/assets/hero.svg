@@ -1,88 +1,288 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 470" width="1200" height="470" role="img" aria-label="The 2nd Codex - run a second Codex account alongside your normal one">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" role="img" aria-label="The 2nd Codex - two Codex accounts running side by side in separate, isolated profiles">
   <title>The 2nd Codex</title>
 
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0E0E16"/>
-      <stop offset="1" stop-color="#07070C"/>
+    <linearGradient id="space" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#090615"/>
+      <stop offset="0.55" stop-color="#0C0820"/>
+      <stop offset="1" stop-color="#050409"/>
     </linearGradient>
-    <linearGradient id="plateA" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#4A4A5C"/>
-      <stop offset="1" stop-color="#23232E"/>
-    </linearGradient>
-    <linearGradient id="plateB" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#7C5CFF"/>
-      <stop offset="1" stop-color="#2A1B6B"/>
-    </linearGradient>
-    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+
+    <radialGradient id="nebulaA" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#7C5CFF" stop-opacity="0.34"/>
+      <stop offset="0.55" stop-color="#5B3FD6" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#5B3FD6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nebulaB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2E7FE8" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#2E7FE8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="titleGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#7C5CFF" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Left world: the Codex you already have -->
+    <radialGradient id="worldA" cx="0.34" cy="0.28" r="0.82">
+      <stop offset="0" stop-color="#8E93AD"/>
+      <stop offset="0.42" stop-color="#4A4F68"/>
+      <stop offset="0.78" stop-color="#252938"/>
+      <stop offset="1" stop-color="#111320"/>
+    </radialGradient>
+    <radialGradient id="haloA" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0.55" stop-color="#8E93AD" stop-opacity="0"/>
+      <stop offset="0.72" stop-color="#8E93AD" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#8E93AD" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Right world: the second profile -->
+    <radialGradient id="worldB" cx="0.34" cy="0.28" r="0.82">
+      <stop offset="0" stop-color="#C9B6FF"/>
+      <stop offset="0.36" stop-color="#8A6BFF"/>
+      <stop offset="0.72" stop-color="#4B2FB0"/>
+      <stop offset="1" stop-color="#1E1247"/>
+    </radialGradient>
+    <radialGradient id="haloB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0.45" stop-color="#7C5CFF" stop-opacity="0"/>
+      <stop offset="0.62" stop-color="#7C5CFF" stop-opacity="0.42"/>
+      <stop offset="0.80" stop-color="#7C5CFF" stop-opacity="0.13"/>
+      <stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#7C5CFF" stop-opacity="0"/>
-      <stop offset="0.5" stop-color="#7C5CFF" stop-opacity="0.55"/>
+      <stop offset="0.5" stop-color="#A78BFA" stop-opacity="0.85"/>
       <stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/>
     </linearGradient>
+    <linearGradient id="topline" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7C5CFF" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#A78BFA" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="streak" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.75"/>
+    </linearGradient>
+
+    <clipPath id="frame"><rect width="1200" height="560" rx="22"/></clipPath>
   </defs>
 
   <style>
-    .sans  { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    .mono  { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
-    .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 2.6px; fill: #6F6F8A; }
-    .title   { font-size: 46px; font-weight: 700; fill: #F4F4F8; letter-spacing: -0.8px; }
-    .sub     { font-size: 18px; fill: #9C9CB4; }
-    .card-t  { font-size: 20px; font-weight: 650; fill: #F4F4F8; }
-    .card-s  { font-size: 14px; fill: #8B8BA6; }
-    .path    { font-size: 13px; fill: #C3C3D8; }
-    .badge   { font-size: 12px; font-weight: 600; letter-spacing: 1.4px; fill: #8D7CFF; }
-    .foot    { font-size: 14px; fill: #7E7E99; }
-    .mono-ic { font-size: 23px; font-weight: 700; fill: #FFFFFF; }
+    .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .eyebrow { font-size: 12.5px; font-weight: 600; letter-spacing: 3.4px; fill: #8B84B8; }
+    .title   { font-size: 52px; font-weight: 700; fill: #FFFFFF; letter-spacing: -1.2px; }
+    .sub     { font-size: 18px; fill: #A9A6C8; }
+    .app     { font-size: 19px; font-weight: 650; fill: #F3F1FF; }
+    .path    { font-size: 13.5px; fill: #D6D2F2; }
+    .note    { font-size: 12.5px; letter-spacing: 1.5px; font-weight: 600; }
+    .badge   { font-size: 11.5px; font-weight: 700; letter-spacing: 1.8px; fill: #C4B4FF; }
+    .foot    { font-size: 14px; fill: #7F7AA3; }
+    .glyph   { font-size: 25px; font-weight: 700; fill: #FFFFFF; }
   </style>
 
-  <rect width="1200" height="470" rx="22" fill="url(#bg)"/>
-  <rect x="0.5" y="0.5" width="1199" height="469" rx="21.5" fill="none" stroke="#1E1E2B"/>
-  <rect x="300" y="0" width="600" height="1.5" fill="url(#glow)"/>
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="560" fill="url(#space)"/>
 
-  <!-- Header -->
-  <text class="sans eyebrow" x="600" y="66" text-anchor="middle">MACOS  ·  OPEN SOURCE  ·  MIT</text>
-  <text class="sans title"   x="600" y="118" text-anchor="middle">The 2nd Codex</text>
-  <text class="sans sub"     x="600" y="152" text-anchor="middle">Two Codex accounts. Side by side. At the same time.</text>
+    <!-- deep field -->
+    <ellipse cx="880" cy="250" rx="430" ry="300" fill="url(#nebulaA)"/>
+    <ellipse cx="250" cy="420" rx="380" ry="260" fill="url(#nebulaB)"/>
+    <ellipse cx="600" cy="120" rx="420" ry="130" fill="url(#titleGlow)"/>
 
-  <!-- Left card: the Codex you already have -->
-  <g>
-    <rect x="70" y="196" width="440" height="196" rx="16" fill="#13131C" stroke="#242433"/>
-    <rect x="102" y="228" width="64" height="64" rx="15" fill="url(#plateA)"/>
-    <rect x="103.5" y="229.5" width="61" height="61" rx="13.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.14"/>
-    <text class="mono mono-ic" x="134" y="268" text-anchor="middle" dominant-baseline="middle">C</text>
+    <g>
+    <circle cx="391.4" cy="90.1" r="1.6" fill="#9FD4FF" opacity="0.22"/>
+    <circle cx="119.4" cy="325.0" r="1.3" fill="#FFFFFF" opacity="0.34"/>
+    <circle cx="521.4" cy="46.0" r="0.6" fill="#FFFFFF" opacity="0.59"/>
+    <circle cx="78.0" cy="315.6" r="0.7" fill="#FFFFFF" opacity="0.65"/>
+    <circle cx="698.3" cy="41.7" r="1.3" fill="#FFFFFF" opacity="0.47"/>
+    <circle cx="63.2" cy="475.0" r="0.9" fill="#FFFFFF" opacity="0.49"/>
+    <circle cx="648.2" cy="318.6" r="1.3" fill="#FFFFFF" opacity="0.78"/>
+    <circle cx="130.0" cy="318.7" r="0.7" fill="#FFFFFF" opacity="0.46"/>
+    <circle cx="656.5" cy="42.2" r="0.6" fill="#FFFFFF" opacity="0.64"/>
+    <circle cx="595.8" cy="297.3" r="0.9" fill="#FFFFFF" opacity="0.52"/>
+    <circle cx="1101.4" cy="204.7" r="0.7" fill="#FFFFFF" opacity="0.77"/>
+    <circle cx="835.6" cy="140.8" r="1.3" fill="#C9B8FF" opacity="0.4"/>
+    <circle cx="1044.2" cy="404.8" r="0.9" fill="#FFFFFF" opacity="0.63"/>
+    <circle cx="94.7" cy="286.5" r="0.7" fill="#FFFFFF" opacity="0.74"/>
+    <circle cx="187.9" cy="274.0" r="0.6" fill="#FFFFFF" opacity="0.89"/>
+    <circle cx="99.9" cy="311.6" r="0.9" fill="#FFFFFF" opacity="0.43"/>
+    <circle cx="422.6" cy="278.2" r="1.0" fill="#FFFFFF" opacity="0.23"/>
+    <circle cx="118.8" cy="154.8" r="1.6" fill="#FFFFFF" opacity="0.67"/>
+    <circle cx="873.7" cy="176.4" r="1.3" fill="#C9B8FF" opacity="0.91"/>
+    <circle cx="1121.7" cy="201.4" r="1.3" fill="#FFFFFF" opacity="0.27"/>
+    <circle cx="266.4" cy="164.4" r="1.6" fill="#C9B8FF" opacity="0.36"/>
+    <circle cx="1093.5" cy="278.1" r="0.7" fill="#FFFFFF" opacity="0.51"/>
+    <circle cx="658.5" cy="488.6" r="1.0" fill="#FFFFFF" opacity="0.82"/>
+    <circle cx="458.4" cy="133.5" r="0.6" fill="#FFFFFF" opacity="0.31"/>
+    <circle cx="282.6" cy="134.9" r="1.0" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="223.9" cy="161.4" r="0.7" fill="#FFFFFF" opacity="0.49"/>
+    <circle cx="445.2" cy="316.1" r="0.7" fill="#FFFFFF" opacity="0.69"/>
+    <circle cx="618.3" cy="344.0" r="1.6" fill="#C9B8FF" opacity="0.73"/>
+    <circle cx="1073.0" cy="432.3" r="1.6" fill="#C9B8FF" opacity="0.77"/>
+    <circle cx="479.3" cy="222.4" r="1.0" fill="#FFFFFF" opacity="0.65"/>
+    <circle cx="81.7" cy="44.6" r="0.7" fill="#FFFFFF" opacity="0.51"/>
+    <circle cx="138.2" cy="334.8" r="0.6" fill="#FFFFFF" opacity="0.18"/>
+    <circle cx="187.1" cy="63.2" r="0.9" fill="#FFFFFF" opacity="0.63"/>
+    <circle cx="91.3" cy="121.1" r="1.0" fill="#FFFFFF" opacity="0.29"/>
+    <circle cx="306.7" cy="197.0" r="0.9" fill="#FFFFFF" opacity="0.53"/>
+    <circle cx="144.6" cy="273.5" r="1.0" fill="#FFFFFF" opacity="0.54"/>
+    <circle cx="377.2" cy="86.4" r="1.6" fill="#C9B8FF" opacity="0.43"/>
+    <circle cx="574.7" cy="384.5" r="1.3" fill="#9FD4FF" opacity="0.2"/>
+    <circle cx="436.3" cy="383.4" r="0.6" fill="#FFFFFF" opacity="0.74"/>
+    <circle cx="317.2" cy="207.5" r="0.7" fill="#FFFFFF" opacity="0.44"/>
+    <circle cx="272.1" cy="449.5" r="0.7" fill="#FFFFFF" opacity="0.78"/>
+    <circle cx="976.9" cy="410.5" r="0.7" fill="#FFFFFF" opacity="0.33"/>
+    <circle cx="591.5" cy="405.7" r="0.6" fill="#FFFFFF" opacity="0.76"/>
+    <circle cx="567.1" cy="113.3" r="1.3" fill="#C9B8FF" opacity="0.89"/>
+    <circle cx="965.3" cy="401.4" r="0.9" fill="#FFFFFF" opacity="0.89"/>
+    <circle cx="439.7" cy="127.9" r="0.7" fill="#FFFFFF" opacity="0.53"/>
+    <circle cx="575.7" cy="363.2" r="1.6" fill="#9FD4FF" opacity="0.24"/>
+    <circle cx="150.0" cy="219.4" r="1.6" fill="#C9B8FF" opacity="0.74"/>
+    <circle cx="1060.6" cy="244.1" r="1.6" fill="#9FD4FF" opacity="0.43"/>
+    <circle cx="476.7" cy="226.4" r="0.6" fill="#FFFFFF" opacity="0.72"/>
+    <circle cx="209.3" cy="77.1" r="0.7" fill="#FFFFFF" opacity="0.62"/>
+    <circle cx="559.0" cy="364.8" r="1.3" fill="#C9B8FF" opacity="0.79"/>
+    <circle cx="786.2" cy="198.6" r="1.3" fill="#FFFFFF" opacity="0.59"/>
+    <circle cx="24.9" cy="536.2" r="1.6" fill="#9FD4FF" opacity="0.26"/>
+    <circle cx="1113.4" cy="244.0" r="0.7" fill="#FFFFFF" opacity="0.79"/>
+    <circle cx="257.9" cy="145.0" r="0.9" fill="#FFFFFF" opacity="0.55"/>
+    <circle cx="912.2" cy="185.3" r="1.3" fill="#FFFFFF" opacity="0.49"/>
+    <circle cx="80.1" cy="410.5" r="1.0" fill="#FFFFFF" opacity="0.67"/>
+    <circle cx="973.0" cy="289.1" r="1.3" fill="#FFFFFF" opacity="0.28"/>
+    <circle cx="627.8" cy="18.2" r="1.0" fill="#FFFFFF" opacity="0.75"/>
+    <circle cx="728.5" cy="430.2" r="0.7" fill="#FFFFFF" opacity="0.31"/>
+    <circle cx="568.6" cy="402.5" r="1.3" fill="#9FD4FF" opacity="0.23"/>
+    <circle cx="621.7" cy="310.2" r="0.6" fill="#FFFFFF" opacity="0.83"/>
+    <circle cx="75.3" cy="112.1" r="0.6" fill="#FFFFFF" opacity="0.75"/>
+    <circle cx="609.1" cy="313.6" r="0.6" fill="#FFFFFF" opacity="0.51"/>
+    <circle cx="733.2" cy="283.0" r="1.3" fill="#C9B8FF" opacity="0.33"/>
+    <circle cx="543.6" cy="298.1" r="1.0" fill="#FFFFFF" opacity="0.56"/>
+    <circle cx="1065.0" cy="118.2" r="1.0" fill="#FFFFFF" opacity="0.28"/>
+    <circle cx="152.0" cy="248.5" r="0.6" fill="#FFFFFF" opacity="0.68"/>
+    <circle cx="515.2" cy="123.7" r="0.9" fill="#FFFFFF" opacity="0.76"/>
+    <circle cx="1070.1" cy="92.0" r="1.6" fill="#C9B8FF" opacity="0.66"/>
+    <circle cx="177.3" cy="488.3" r="1.0" fill="#FFFFFF" opacity="0.34"/>
+    <circle cx="1135.8" cy="224.7" r="1.0" fill="#FFFFFF" opacity="0.3"/>
+    <circle cx="798.7" cy="129.7" r="1.6" fill="#9FD4FF" opacity="0.5"/>
+    <circle cx="486.1" cy="237.2" r="0.9" fill="#FFFFFF" opacity="0.42"/>
+    <circle cx="863.0" cy="18.6" r="1.3" fill="#9FD4FF" opacity="0.52"/>
+    <circle cx="29.4" cy="188.3" r="1.3" fill="#FFFFFF" opacity="0.4"/>
+    <circle cx="141.6" cy="507.7" r="0.7" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="132.1" cy="152.5" r="0.6" fill="#FFFFFF" opacity="0.85"/>
+    <circle cx="223.0" cy="419.1" r="1.0" fill="#FFFFFF" opacity="0.81"/>
+    <circle cx="808.4" cy="522.6" r="1.0" fill="#FFFFFF" opacity="0.29"/>
+    <circle cx="1096.3" cy="318.4" r="1.6" fill="#C9B8FF" opacity="0.42"/>
+    <circle cx="76.1" cy="382.4" r="1.0" fill="#FFFFFF" opacity="0.84"/>
+    <circle cx="326.4" cy="17.2" r="0.6" fill="#FFFFFF" opacity="0.77"/>
+    <circle cx="107.2" cy="473.8" r="0.6" fill="#FFFFFF" opacity="0.38"/>
+    <circle cx="152.1" cy="14.3" r="1.3" fill="#C9B8FF" opacity="0.49"/>
+    <circle cx="744.1" cy="31.5" r="1.6" fill="#FFFFFF" opacity="0.36"/>
+    <circle cx="1155.5" cy="150.5" r="0.7" fill="#FFFFFF" opacity="0.33"/>
+    <circle cx="377.4" cy="173.9" r="0.7" fill="#FFFFFF" opacity="0.39"/>
+    <circle cx="600.1" cy="104.8" r="0.9" fill="#FFFFFF" opacity="0.77"/>
+    <circle cx="1185.5" cy="28.1" r="0.6" fill="#FFFFFF" opacity="0.72"/>
+    <circle cx="660.4" cy="111.1" r="1.0" fill="#FFFFFF" opacity="0.36"/>
+    <circle cx="537.3" cy="366.1" r="1.6" fill="#C9B8FF" opacity="0.5"/>
+    <circle cx="654.4" cy="491.5" r="1.3" fill="#FFFFFF" opacity="0.41"/>
+    <circle cx="1171.2" cy="194.4" r="1.6" fill="#FFFFFF" opacity="0.72"/>
+    <circle cx="487.2" cy="197.1" r="0.6" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="24.9" cy="348.2" r="0.9" fill="#FFFFFF" opacity="0.5"/>
+    <circle cx="73.6" cy="369.9" r="1.0" fill="#FFFFFF" opacity="0.82"/>
+    <circle cx="801.9" cy="161.4" r="0.7" fill="#FFFFFF" opacity="0.69"/>
+    <circle cx="61.6" cy="108.8" r="0.9" fill="#FFFFFF" opacity="0.51"/>
+    <circle cx="319.7" cy="531.2" r="1.3" fill="#FFFFFF" opacity="0.42"/>
+    <circle cx="1151.3" cy="176.4" r="0.9" fill="#FFFFFF" opacity="0.32"/>
+    <circle cx="405.0" cy="53.6" r="0.9" fill="#FFFFFF" opacity="0.55"/>
+    <circle cx="975.4" cy="86.3" r="1.3" fill="#FFFFFF" opacity="0.21"/>
+    <circle cx="634.6" cy="416.3" r="1.6" fill="#9FD4FF" opacity="0.84"/>
+    <circle cx="469.2" cy="185.4" r="1.0" fill="#FFFFFF" opacity="0.29"/>
+    <circle cx="969.7" cy="83.8" r="1.3" fill="#9FD4FF" opacity="0.74"/>
+    <circle cx="996.6" cy="445.7" r="1.6" fill="#9FD4FF" opacity="0.61"/>
+    <circle cx="57.6" cy="354.6" r="0.6" fill="#FFFFFF" opacity="0.46"/>
+    <circle cx="542.4" cy="35.6" r="0.6" fill="#FFFFFF" opacity="0.64"/>
+    <circle cx="91.0" cy="515.3" r="1.3" fill="#9FD4FF" opacity="0.25"/>
+    <circle cx="86.2" cy="408.8" r="0.9" fill="#FFFFFF" opacity="0.78"/>
+    <circle cx="1009.8" cy="135.7" r="0.7" fill="#FFFFFF" opacity="0.35"/>
+    <circle cx="777.5" cy="258.4" r="1.0" fill="#FFFFFF" opacity="0.24"/>
+    <circle cx="1086.0" cy="164.3" r="0.6" fill="#FFFFFF" opacity="0.64"/>
+    <circle cx="769.0" cy="50.1" r="0.7" fill="#FFFFFF" opacity="0.43"/>
+    <circle cx="779.4" cy="384.9" r="1.3" fill="#FFFFFF" opacity="0.6"/>
+    <circle cx="579.2" cy="272.3" r="1.6" fill="#FFFFFF" opacity="0.25"/>
+    <circle cx="808.0" cy="166.2" r="1.3" fill="#C9B8FF" opacity="0.39"/>
+    <circle cx="560.1" cy="72.5" r="1.3" fill="#FFFFFF" opacity="0.33"/>
+    <circle cx="1116.5" cy="17.5" r="1.0" fill="#FFFFFF" opacity="0.24"/>
+    <circle cx="607.8" cy="549.1" r="0.9" fill="#FFFFFF" opacity="0.47"/>
+    <circle cx="1093.2" cy="514.2" r="0.6" fill="#FFFFFF" opacity="0.61"/>
+    <circle cx="175.8" cy="293.1" r="0.9" fill="#FFFFFF" opacity="0.28"/>
+    <circle cx="979.1" cy="284.8" r="0.6" fill="#FFFFFF" opacity="0.7"/>
+    <circle cx="282.0" cy="496.4" r="1.0" fill="#FFFFFF" opacity="0.47"/>
+    <circle cx="196.3" cy="524.8" r="1.6" fill="#C9B8FF" opacity="0.51"/>
+    <circle cx="1002.8" cy="8.9" r="0.9" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="150.1" cy="512.0" r="1.6" fill="#9FD4FF" opacity="0.19"/>
+    <circle cx="351.2" cy="210.5" r="1.0" fill="#FFFFFF" opacity="0.47"/>
+    <circle cx="1038.0" cy="49.6" r="1.0" fill="#FFFFFF" opacity="0.74"/>
+    <circle cx="1019.4" cy="160.7" r="0.6" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="346.2" cy="517.0" r="0.7" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="524.5" cy="179.7" r="0.9" fill="#FFFFFF" opacity="0.76"/>
+    <circle cx="514.5" cy="23.8" r="1.6" fill="#9FD4FF" opacity="0.48"/>
+    <circle cx="658.3" cy="399.4" r="0.6" fill="#FFFFFF" opacity="0.87"/>
+    <circle cx="494.5" cy="342.5" r="0.7" fill="#FFFFFF" opacity="0.66"/>
+    </g>
 
-    <text class="sans card-t" x="186" y="250">Codex.app</text>
-    <text class="sans card-s" x="186" y="275">Your existing install · Account A</text>
+    <!-- a passing streak -->
+    <path d="M 128 96 L 214 150" stroke="url(#streak)" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 986 430 L 1044 466" stroke="url(#streak)" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
 
-    <rect x="102" y="318" width="376" height="42" rx="10" fill="#0A0A11" stroke="#22222F"/>
-    <text class="mono path" x="120" y="344">~/.codex</text>
-    <text class="sans card-s" x="458" y="344" text-anchor="end">untouched</text>
+    <rect x="300" y="0" width="600" height="1.6" fill="url(#topline)"/>
+
+    <!-- ── Header ───────────────────────────────────────────── -->
+    <text class="sans eyebrow" x="600" y="74"  text-anchor="middle">MACOS &#183; OPEN SOURCE &#183; MIT</text>
+    <text class="sans title"   x="600" y="130" text-anchor="middle">The 2nd Codex</text>
+    <text class="sans sub"     x="600" y="166" text-anchor="middle">Two Codex accounts. Side by side. At the same time.</text>
+
+    <!-- ── Left world ───────────────────────────────────────── -->
+    <g>
+      <ellipse cx="330" cy="310" rx="196" ry="54" fill="none" stroke="#8E93AD" stroke-opacity="0.3" stroke-width="1.2" transform="rotate(-17 330 310)"/>
+      <ellipse cx="330" cy="310" rx="158" ry="40" fill="none" stroke="#8E93AD" stroke-opacity="0.16" stroke-width="1.2" transform="rotate(-17 330 310)"/>
+      <circle cx="330" cy="310" r="150" fill="url(#haloA)"/>
+      <circle cx="330" cy="310" r="84" fill="url(#worldA)"/>
+      <circle cx="330" cy="310" r="84" fill="none" stroke="#B9BDD4" stroke-opacity="0.22"/>
+      <text class="sans glyph" x="330" y="310" text-anchor="middle" dominant-baseline="central" opacity="0.9">C</text>
+      <circle cx="516" cy="270" r="4.5" fill="#8E93AD" opacity="0.75"/>
+    </g>
+
+    <!-- ── Right world ──────────────────────────────────────── -->
+    <g>
+      <ellipse cx="870" cy="310" rx="196" ry="54" fill="none" stroke="#A78BFA" stroke-opacity="0.45" stroke-width="1.2" transform="rotate(17 870 310)"/>
+      <ellipse cx="870" cy="310" rx="158" ry="40" fill="none" stroke="#A78BFA" stroke-opacity="0.22" stroke-width="1.2" transform="rotate(17 870 310)"/>
+      <circle cx="870" cy="310" r="168" fill="url(#haloB)"/>
+      <circle cx="870" cy="310" r="84" fill="url(#worldB)"/>
+      <circle cx="870" cy="310" r="84" fill="none" stroke="#D8CBFF" stroke-opacity="0.38"/>
+      <text class="sans glyph" x="870" y="310" text-anchor="middle" dominant-baseline="central">CP</text>
+      <circle cx="682" cy="352" r="5" fill="#C4B4FF" opacity="0.9"/>
+    </g>
+
+    <!-- ── Centre badge ─────────────────────────────────────── -->
+    <g>
+      <ellipse cx="600" cy="310" rx="92" ry="60" fill="url(#nebulaA)" opacity="0.7"/>
+      <rect x="536" y="291" width="128" height="38" rx="19" fill="#120D26" stroke="#4A3A90"/>
+      <text class="sans badge" x="600" y="310" text-anchor="middle" dominant-baseline="central">NEVER COLLIDE</text>
+    </g>
+
+    <!-- ── Labels ───────────────────────────────────────────── -->
+    <g>
+      <text class="sans app"  x="330" y="450" text-anchor="middle">Codex.app</text>
+      <rect x="205" y="466" width="250" height="36" rx="11" fill="#0B0A18" stroke="#2C2A44"/>
+      <text class="mono path" x="330" y="484" text-anchor="middle" dominant-baseline="central">~/.codex</text>
+      <text class="sans note" x="330" y="522" text-anchor="middle" fill="#6F91B5">NEVER TOUCHED</text>
+    </g>
+    <g>
+      <text class="sans app"  x="870" y="450" text-anchor="middle">Codex Personal.app</text>
+      <rect x="745" y="466" width="250" height="36" rx="11" fill="#100B22" stroke="#453A78"/>
+      <text class="mono path" x="870" y="484" text-anchor="middle" dominant-baseline="central">~/.codex-personal</text>
+      <text class="sans note" x="870" y="522" text-anchor="middle" fill="#9B86E8">CREATED FOR YOU</text>
+    </g>
+
+    <rect x="0.75" y="0.75" width="1198.5" height="558.5" rx="21.25" fill="none" stroke="#241E45"/>
   </g>
-
-  <!-- Divider -->
-  <g>
-    <line x1="600" y1="210" x2="600" y2="262" stroke="#2A2A3A" stroke-width="1.5" stroke-dasharray="4 6"/>
-    <line x1="600" y1="326" x2="600" y2="378" stroke="#2A2A3A" stroke-width="1.5" stroke-dasharray="4 6"/>
-    <rect x="547" y="272" width="106" height="44" rx="12" fill="#14101F" stroke="#3A2E6B"/>
-    <text class="sans badge" x="600" y="291" text-anchor="middle">FULLY</text>
-    <text class="sans badge" x="600" y="307" text-anchor="middle">ISOLATED</text>
-  </g>
-
-  <!-- Right card: the second profile -->
-  <g>
-    <rect x="690" y="196" width="440" height="196" rx="16" fill="#15121F" stroke="#3A2E6B"/>
-    <rect x="722" y="228" width="64" height="64" rx="15" fill="url(#plateB)"/>
-    <rect x="723.5" y="229.5" width="61" height="61" rx="13.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.2"/>
-    <text class="sans mono-ic" x="754" y="268" text-anchor="middle" dominant-baseline="middle">CP</text>
-
-    <text class="sans card-t" x="806" y="250">Codex Personal.app</text>
-    <text class="sans card-s" x="806" y="275">This launcher · Account B</text>
-
-    <rect x="722" y="318" width="376" height="42" rx="10" fill="#0C0918" stroke="#2E2551"/>
-    <text class="mono path" x="740" y="344">~/.codex-personal</text>
-    <text class="sans card-s" x="1078" y="344" text-anchor="end">created for you</text>
-  </g>
-
-  <!-- Footer -->
-  <text class="sans foot" x="600" y="434" text-anchor="middle">Separate logins · Separate sessions · Quit one, the other keeps running</text>
 </svg>
