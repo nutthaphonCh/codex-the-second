@@ -11,6 +11,12 @@ than shipping a mislabelled artifact.
 
 **How to apply:**
 
+0. If Codex Desktop has changed since the last release, re-run
+   [[verify-profile-isolation]] and update `tested-with.json` first. Every
+   release publishes the Codex build it was verified against, in both the
+   release title and a **Tested against** table in the notes — CI fails if any
+   document quotes a different version.
+
 1. Bump the version and commit it:
 
    ```bash

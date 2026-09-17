@@ -4,6 +4,9 @@ One fact or one procedure per file, each with frontmatter, linked to its
 neighbours with `[[wiki-links]]`. This file is the index: one line per entry,
 never the content itself.
 
+The short version of the rules — what never to do, the conventions, what to run
+before pushing — is in [`CLAUDE.md`](../CLAUDE.md) at the repository root.
+
 Frontmatter on every entry:
 
 ```yaml
