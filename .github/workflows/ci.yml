@@ -36,6 +36,26 @@ jobs:
           xcodebuild -version
           swift --version
 
+      - name: Check release metadata
+        run: |
+          for field in codexDesktopVersion codexBundleIdentifier macos architecture verifiedOn; do
+            value="$(plutil -extract "${field}" raw -o - tested-with.json)"
+            [ -n "${value}" ] || { echo "::error::tested-with.json is missing ${field}"; exit 1; }
+            printf "  ok    %-24s %s\n" "${field}" "${value}"
+          done
+
+          # Documents must not quote a Codex version other than the tested one.
+          expected="$(plutil -extract codexDesktopVersion raw -o - tested-with.json)"
+          for doc in docs/verification.md knowledge/reference/upstream-behaviour-watch.md README.md; do
+            for found in $(grep -oE "Codex Desktop [0-9]+\.[0-9]+\.[0-9]+" "${doc}" | awk '{print $3}'); do
+              if [ "${found}" != "${expected}" ]; then
+                echo "::error::${doc} says Codex Desktop ${found}, tested-with.json says ${expected}"
+                exit 1
+              fi
+              printf "  ok    %-24s %s\n" "$(basename "${doc}")" "matches ${found}"
+            done
+          done
+
       - name: Check the knowledge base
         run: ./scripts/check-knowledge.sh
 

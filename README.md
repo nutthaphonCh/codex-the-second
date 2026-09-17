@@ -247,6 +247,9 @@ lists exactly what is being relied on and how each piece fails.
   itself, but they aren't a public API and a future release could change them.
   If that happens the launcher reports the failure rather than quietly using the
   wrong profile.
+- **Every release states the Codex Desktop build it was verified against** — in
+  the release title and notes, and in [`tested-with.json`](tested-with.json). If
+  your Codex is much newer, that is the first thing to check.
 - While running, both windows belong to Codex, so they share one Dock icon
   identity. The distinct icon marks the launcher, not the running window.
 - macOS only.
