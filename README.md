@@ -117,6 +117,40 @@ and staple automatically — no code change, and the warning disappears.
 
 ---
 
+## Command line
+
+`c2nd` ships inside the app. Put it on your PATH once:
+
+```bash
+sudo ln -sf "/Applications/Codex Personal.app/Contents/MacOS/c2nd" /usr/local/bin/c2nd
+```
+
+```bash
+c2nd                    # installed profiles, their folders, running or not
+c2nd launch personal    # start a profile
+c2nd plan personal      # what would be launched, without launching
+c2nd doctor             # check Codex, every profile, and its isolation
+```
+
+```
+$ c2nd
+PROFILE      APP                      CODEX_HOME                      STATE
+personal     Codex Personal           ~/.codex-personal               running
+
+$ c2nd doctor
+Codex Desktop
+  ok   found                     /Applications/ChatGPT.app
+  ok   identifier                com.openai.codex
+  ok   version                   26.908.40834
+...
+No problems found.
+```
+
+It drives the launchers you have installed — it does not create them, and it
+goes through the same validation and isolation checks the app does. `plan` and
+`doctor` print only `CODEX_HOME` and `CODEX_ELECTRON_USER_DATA_PATH`, never the
+rest of your environment, so their output is safe to paste into an issue.
+
 ## Where your data lives
 
 One folder, created on first launch, owner-only (`0700`):

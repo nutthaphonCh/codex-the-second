@@ -9,7 +9,14 @@ metadata:
 for users but hides the detail. Run the binary directly and the same message
 goes to stderr, where it can be read and acted on.
 
-**How to apply:**
+**How to apply:** start with the command, which checks Codex discovery, every
+installed profile and its isolation in one pass:
+
+```bash
+c2nd doctor
+```
+
+Then, for one profile in detail:
 
 ```bash
 # alerts off so nothing blocks on a modal dialog

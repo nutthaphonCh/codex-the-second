@@ -76,18 +76,22 @@ case "${ARCH}" in
   universal)
     build_slice arm64  "${BUILD_DIR}/arm64"
     build_slice x86_64 "${BUILD_DIR}/x86_64"
-    BINARY="${BUILD_DIR}/universal/CodexTheSecond"
-    mkdir -p "$(dirname "${BINARY}")"
+    mkdir -p "${BUILD_DIR}/universal"
     # `swift build --arch a --arch b` needs a full Xcode installation; lipo
     # over two single-arch builds works with Command Line Tools alone.
-    lipo -create \
-      "${BUILD_DIR}/arm64/release/CodexTheSecond" \
-      "${BUILD_DIR}/x86_64/release/CodexTheSecond" \
-      -output "${BINARY}"
+    for product in CodexTheSecond c2nd; do
+      lipo -create \
+        "${BUILD_DIR}/arm64/release/${product}" \
+        "${BUILD_DIR}/x86_64/release/${product}" \
+        -output "${BUILD_DIR}/universal/${product}"
+    done
+    BINARY="${BUILD_DIR}/universal/CodexTheSecond"
+    CLI_BINARY="${BUILD_DIR}/universal/c2nd"
     ;;
   arm64|x86_64)
     build_slice "${ARCH}" "${BUILD_DIR}/${ARCH}"
     BINARY="${BUILD_DIR}/${ARCH}/release/CodexTheSecond"
+    CLI_BINARY="${BUILD_DIR}/${ARCH}/release/c2nd"
     ;;
   *)
     echo "Unsupported --arch: ${ARCH} (expected universal, arm64 or x86_64)" >&2
@@ -105,6 +109,13 @@ mkdir -p "${APP_BUNDLE}/Contents/MacOS" "${APP_BUNDLE}/Contents/Resources"
 
 cp "${BINARY}" "${APP_BUNDLE}/Contents/MacOS/CodexTheSecond"
 chmod +x "${APP_BUNDLE}/Contents/MacOS/CodexTheSecond"
+
+# The c2nd command ships inside the bundle rather than as a loose file in the
+# DMG, so drag-to-Applications stays the only install step. It reads the version
+# from this same Info.plist, and drives every installed profile, not just this
+# one. README documents the one-line symlink that puts it on PATH.
+cp "${CLI_BINARY}" "${APP_BUNDLE}/Contents/MacOS/c2nd"
+chmod +x "${APP_BUNDLE}/Contents/MacOS/c2nd"
 
 # The profile is the launcher's only configuration: it is read back at runtime
 # from Contents/Resources/profile.json.
