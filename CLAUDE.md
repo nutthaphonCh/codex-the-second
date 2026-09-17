@@ -20,7 +20,8 @@ and these are not. Everything else is routed.
 ## Before pushing
 
 ```bash
-./scripts/check-knowledge.sh                        # frontmatter, links, index
+./scripts/check-tested-version.sh                   # docs agree with tested-with.json
+./scripts/check-knowledge.sh                        # frontmatter, links, routes
 ./scripts/test.sh                                   # unit tests
 ./scripts/build.sh                                  # -> dist/Codex Personal.app
 ./scripts/validate-bundle.sh "dist/Codex Personal.app"

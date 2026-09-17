@@ -14,7 +14,7 @@ Observed against **Codex Desktop 26.908.40834** on macOS 26.5.2 (Apple Silicon).
 That version lives in [`tested-with.json`](../../tested-with.json) at the
 repository root — one source of truth, published in every release's notes and
 title. CI fails if a document quotes a different version, so update the JSON
-first and only after re-running [[verify-profile-isolation]].
+first and only after re-running [docs/verification.md](../../docs/verification.md).
 
 | Depends on | Currently | If it changes |
 | --- | --- | --- |
@@ -39,7 +39,7 @@ for v in CODEX_HOME CODEX_ELECTRON_USER_DATA_PATH user-data-dir; do
 done
 ```
 
-Then run [[verify-profile-isolation]] — process, environment and filesystem
+Then run [docs/verification.md](../../docs/verification.md) — process, environment and filesystem
 isolation is what actually matters, not whether the strings are still present.
 
 The failure mode to care about is **silent**: Codex starting on the default

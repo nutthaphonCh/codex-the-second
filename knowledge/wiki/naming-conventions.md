@@ -42,9 +42,9 @@ Other naming that is fixed by the project rather than the tools:
 
 - Product name: **Codex the 2nd**
 - Swift module / bundle executable: `CodexTheSecond`
-- Bundle identifier: `com.local.codex-the-second.<slug>`
+- Bundle identifier: `io.github.nutthaphonch.codex-the-second.<slug>`
 - Environment overrides: `CODEX_THE_SECOND_*`
 - Release artifacts: `Codex-the-2nd-vX.Y.Z.dmg`
 - Generated app: `Codex <Profile>.app`, e.g. `Codex Personal.app`
 
-Related: [[repository-map]]
+Related: [the route table](../README.md)

@@ -4,6 +4,12 @@
 one entry that covers it. Each fact lives in exactly one file — `CLAUDE.md` at
 the root holds only the hard rules and points here for the rest.
 
+An entry earns its place by protecting the product: reverse-engineered Codex
+behaviour, verified environment semantics, upstream compatibility, tooling traps
+that cost real time. Anything that only restates the code, the README or
+`docs/verification.md` does not belong here — it will drift, and drifted notes
+are worse than none.
+
 ## Changing how the launcher works
 
 | About to… | Read |
@@ -13,12 +19,7 @@ the root holds only the hard rules and points here for the rest.
 | change how the process is spawned | [launch-without-launchservices](wiki/launch-without-launchservices.md) |
 | work out why two instances can coexist, or why relaunch focuses | [single-instance-locking](wiki/single-instance-locking.md) |
 | work out why a launch failed, or landed on the wrong account | [debug-a-failed-launch](skills/debug-a-failed-launch.md) |
-
-## Profiles
-
-| About to… | Read |
-| --- | --- |
-| add `Codex Work.app` or another profile | [add-a-new-profile](skills/add-a-new-profile.md) |
+| add `Codex Work.app` or another profile | the ["Want a third one?"](../README.md) section of the README |
 
 ## Building, testing, releasing
 
@@ -26,9 +27,8 @@ the root holds only the hard rules and points here for the rest.
 | --- | --- |
 | hit a toolchain oddity — universal binaries, swift-testing, `plutil`, bash 3.2 | [toolchain-constraints](wiki/toolchain-constraints.md) |
 | publish a version | [cut-a-release](skills/cut-a-release.md) |
-| prove the profiles really are isolated | [verify-profile-isolation](skills/verify-profile-isolation.md) |
-| answer a Gatekeeper or signing question | [signing-and-gatekeeper](wiki/signing-and-gatekeeper.md) |
-| switch on Developer ID signing and notarization | [enable-developer-id-signing](skills/enable-developer-id-signing.md) |
+| prove the profiles really are isolated, or read what has actually been tested | [docs/verification.md](../docs/verification.md) |
+| answer a Gatekeeper question, or switch on Developer ID signing | [signing-and-gatekeeper](wiki/signing-and-gatekeeper.md) |
 
 ## Writing files and docs
 
@@ -36,7 +36,6 @@ the root holds only the hard rules and points here for the rest.
 | --- | --- |
 | name a new file, or wonder why `Package.swift` is not skewer-case | [naming-conventions](wiki/naming-conventions.md) |
 | edit the README banner or any SVG GitHub renders | [github-rendering-limits](wiki/github-rendering-limits.md) |
-| find where something lives, or decide which file to change | [repository-map](reference/repository-map.md) |
 
 ## When Codex updates
 

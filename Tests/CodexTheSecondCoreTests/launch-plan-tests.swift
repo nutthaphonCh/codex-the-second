@@ -22,7 +22,7 @@ struct LaunchPlanTests {
             name: "Personal",
             slug: slug,
             appName: "Codex Personal",
-            bundleIdentifier: "com.local.codex-the-second.personal",
+            bundleIdentifier: "io.github.nutthaphonch.codex-the-second." + slug,
             codexHome: codexHome,
             electronUserDataPath: electronUserDataPath
         )
@@ -123,5 +123,50 @@ struct LaunchPlanTests {
 
     @Test func acceptsProfileOutsideDefaultHome() throws {
         _ = try makePlan(makeProfile(slug: "work", codexHome: "~/.codex-work"))
+    }
+}
+
+@Suite("Bundle identifier rules")
+struct BundleIdentifierTests {
+    func profile(_ identifier: String, slug: String = "personal") -> Profile {
+        Profile(
+            name: "Personal",
+            slug: slug,
+            appName: "Codex Personal",
+            bundleIdentifier: identifier,
+            codexHome: "~/.codex-personal",
+            electronUserDataPath: "~/.codex-personal/electron-user-data"
+        )
+    }
+
+    func validate(_ p: Profile) throws {
+        try LaunchPlanBuilder.validate(profile: p, homeDirectory: "/Users/test")
+    }
+
+    @Test func acceptsAnIdentifierDerivedFromTheSlug() throws {
+        try validate(profile("io.github.nutthaphonch.codex-the-second.personal"))
+    }
+
+    /// A fork should not have to keep our namespace.
+    @Test func acceptsAnyNamespaceThatEndsInTheSlug() throws {
+        try validate(profile("com.example.whatever.personal"))
+    }
+
+    @Test func rejectsAnIdentifierThatDoesNotEndInTheSlug() {
+        #expect(throws: LauncherError.self) {
+            try validate(profile("io.github.nutthaphonch.codex-the-second.work"))
+        }
+    }
+
+    @Test func rejectsImpersonatingCodex() {
+        #expect(throws: LauncherError.self) {
+            try validate(profile("com.openai.codex.personal"))
+        }
+    }
+
+    @Test func rejectsUppercaseAndMalformedIdentifiers() {
+        #expect(throws: LauncherError.self) { try validate(profile("IO.GitHub.Owner.personal")) }
+        #expect(throws: LauncherError.self) { try validate(profile("personal")) }
+        #expect(throws: LauncherError.self) { try validate(profile(".personal")) }
     }
 }

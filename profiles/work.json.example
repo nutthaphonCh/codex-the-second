@@ -2,7 +2,7 @@
   "name": "Work",
   "slug": "work",
   "appName": "Codex Work",
-  "bundleIdentifier": "com.local.codex-the-second.work",
+  "bundleIdentifier": "io.github.nutthaphonch.codex-the-second.work",
   "codexHome": "~/.codex-work",
   "electronUserDataPath": "~/.codex-work/electron-user-data",
   "icon": {
