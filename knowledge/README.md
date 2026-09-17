@@ -1,13 +1,54 @@
 # Knowledge
 
-One fact or one procedure per file, each with frontmatter, linked to its
-neighbours with `[[wiki-links]]`. This file is the index: one line per entry,
-never the content itself.
+**Route table first.** Find the row for what you are about to do; it names the
+one entry that covers it. Each fact lives in exactly one file — `CLAUDE.md` at
+the root holds only the hard rules and points here for the rest.
 
-The short version of the rules — what never to do, the conventions, what to run
-before pushing — is in [`CLAUDE.md`](../CLAUDE.md) at the repository root.
+## Changing how the launcher works
 
-Frontmatter on every entry:
+| About to… | Read |
+| --- | --- |
+| change how Codex is located, or handle a moved/renamed bundle | [codex-desktop-bundle](wiki/codex-desktop-bundle.md) |
+| touch environment variables or launch arguments | [profile-isolation-contract](wiki/profile-isolation-contract.md) |
+| change how the process is spawned | [launch-without-launchservices](wiki/launch-without-launchservices.md) |
+| work out why two instances can coexist, or why relaunch focuses | [single-instance-locking](wiki/single-instance-locking.md) |
+| work out why a launch failed, or landed on the wrong account | [debug-a-failed-launch](skills/debug-a-failed-launch.md) |
+
+## Profiles
+
+| About to… | Read |
+| --- | --- |
+| add `Codex Work.app` or another profile | [add-a-new-profile](skills/add-a-new-profile.md) |
+
+## Building, testing, releasing
+
+| About to… | Read |
+| --- | --- |
+| hit a toolchain oddity — universal binaries, swift-testing, `plutil`, bash 3.2 | [toolchain-constraints](wiki/toolchain-constraints.md) |
+| publish a version | [cut-a-release](skills/cut-a-release.md) |
+| prove the profiles really are isolated | [verify-profile-isolation](skills/verify-profile-isolation.md) |
+| answer a Gatekeeper or signing question | [signing-and-gatekeeper](wiki/signing-and-gatekeeper.md) |
+| switch on Developer ID signing and notarization | [enable-developer-id-signing](skills/enable-developer-id-signing.md) |
+
+## Writing files and docs
+
+| About to… | Read |
+| --- | --- |
+| name a new file, or wonder why `Package.swift` is not skewer-case | [naming-conventions](wiki/naming-conventions.md) |
+| edit the README banner or any SVG GitHub renders | [github-rendering-limits](wiki/github-rendering-limits.md) |
+| find where something lives, or decide which file to change | [repository-map](reference/repository-map.md) |
+
+## When Codex updates
+
+| About to… | Read |
+| --- | --- |
+| diagnose a breakage after a Codex release, or re-verify | [upstream-behaviour-watch](reference/upstream-behaviour-watch.md) |
+
+---
+
+## Writing an entry
+
+One fact or one procedure per file, in the local memory format:
 
 ```yaml
 ---
@@ -18,30 +59,13 @@ metadata:
 ---
 ```
 
-`wiki` is how something is; `skill` is how to do something, and carries
-**Why:** and **How to apply:** lines; `reference` points at things that live
-elsewhere.
+`wiki` is how something is. `skill` is how to do something, and carries **Why:**
+and **How to apply:** lines. `reference` points at things that live elsewhere.
+Link neighbours with `[[wiki-links]]`.
 
-## Wiki
+Record what was actually discovered — surprising behaviour, tooling limits,
+decisions and their reasons — not a restatement of the code.
 
-- [Codex Desktop bundle](wiki/codex-desktop-bundle.md) — Codex ships as `ChatGPT.app`, so the path in every obvious tutorial is wrong.
-- [Profile isolation contract](wiki/profile-isolation-contract.md) — why both environment variables are required, not belt-and-braces.
-- [Single instance locking](wiki/single-instance-locking.md) — why two Codex instances can coexist at all.
-- [Launch without LaunchServices](wiki/launch-without-launchservices.md) — why `open` is never used to start Codex.
-- [Signing and Gatekeeper](wiki/signing-and-gatekeeper.md) — what unsigned costs, and the parts already wired for a certificate.
-- [Toolchain constraints](wiki/toolchain-constraints.md) — what Command Line Tools can and cannot do versus full Xcode.
-- [Naming conventions](wiki/naming-conventions.md) — skewer-case everywhere, and the names tooling refuses to let us choose.
-- [GitHub rendering limits](wiki/github-rendering-limits.md) — the SVG features GitHub's sanitizer may drop.
-
-## Skills
-
-- [Add a new profile](skills/add-a-new-profile.md) — ship `Codex Work.app` without touching Swift.
-- [Cut a release](skills/cut-a-release.md) — version, tag, and what the pipeline does unattended.
-- [Verify profile isolation](skills/verify-profile-isolation.md) — prove the profiles are actually separate, without reading tokens.
-- [Enable Developer ID signing](skills/enable-developer-id-signing.md) — the secrets to add; no code changes needed.
-- [Debug a failed launch](skills/debug-a-failed-launch.md) — what to check when Codex will not start.
-
-## Reference
-
-- [Repository map](reference/repository-map.md) — what lives where and why.
-- [Upstream behaviour watch](reference/upstream-behaviour-watch.md) — the Codex internals this project leans on, and what breaks if they change.
+A new entry must be added to the route table above. `scripts/check-knowledge.sh`
+enforces the frontmatter, resolves every `[[wiki-link]]` and relative link
+(`CLAUDE.md`'s included), and fails if an entry is unrouted. CI runs it.

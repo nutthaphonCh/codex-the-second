@@ -2,7 +2,7 @@
 # Validates the knowledge base, and the links CLAUDE.md makes into it.
 #
 # Checks that every entry has well-formed frontmatter, that its name matches its
-# filename, that every [[wiki-link]] resolves, that every entry is indexed, and
+# filename, that every [[wiki-link]] resolves, that every entry is routed from the route table, and
 # that relative links point at files that exist.
 #
 # Run by CI so the knowledge base cannot rot silently.
@@ -55,11 +55,11 @@ for path in entries:
         if link not in names:
             failures.append(f"{path}: [[{link}]] does not resolve to an entry")
 
-# every entry must be reachable from the index
+# every entry must be reachable from the route table
 index_text = index.read_text()
 for name, path in sorted(names.items()):
     if str(path.relative_to(root)) not in index_text:
-        failures.append(f"{path}: not listed in knowledge/README.md")
+        failures.append(f"{path}: not routed from the route table in knowledge/README.md")
 
 # CLAUDE.md points into knowledge/ heavily; those links must not rot either
 claude_md = pathlib.Path("CLAUDE.md")
@@ -84,6 +84,6 @@ if failures:
 
 print(f"  ok    {len(entries)} entries, frontmatter valid")
 print(f"  ok    all [[wiki-links]] resolve")
-print(f"  ok    all entries indexed in knowledge/README.md")
+print(f"  ok    all entries routed from knowledge/README.md")
 print(f"  ok    all relative links resolve, CLAUDE.md included")
 PY
