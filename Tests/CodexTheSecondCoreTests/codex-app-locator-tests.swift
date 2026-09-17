@@ -31,7 +31,7 @@ struct CodexAppLocatorTests {
         name: "Personal",
         slug: "personal",
         appName: "Codex Personal",
-        bundleIdentifier: "com.local.codex-the-second.personal",
+        bundleIdentifier: "io.github.nutthaphonch.codex-the-second.personal",
         codexHome: "~/.codex-personal",
         electronUserDataPath: "~/.codex-personal/electron-user-data"
     )

@@ -61,6 +61,11 @@ Codex and exits.
 **Nothing of OpenAI's is redistributed.** The DMG contains this launcher and
 nothing else. You install Codex Desktop yourself, from OpenAI.
 
+**It separates profiles, not privileges.** This is an isolated *profile*, not a
+sandbox. The second Codex runs as the same macOS user with the same permissions
+and the same binary; only where it stores its profile changes. It keeps two
+accounts out of each other's way — it does not contain either of them.
+
 **It shows its work.** Run `--print-plan` and it prints exactly which Codex it
 found and what it would pass to it, without launching anything — and without
 ever printing your environment or tokens.
@@ -152,7 +157,7 @@ cp profiles/work.json.example profiles/work.json
   "name": "Work",
   "slug": "work",
   "appName": "Codex Work",
-  "bundleIdentifier": "com.local.codex-the-second.work",
+  "bundleIdentifier": "io.github.nutthaphonch.codex-the-second.work",
   "codexHome": "~/.codex-work",
   "electronUserDataPath": "~/.codex-work/electron-user-data",
   "icon": { "label": "CW", "tintTop": "#2FB3A5", "tintBottom": "#0C3A36" }
@@ -248,6 +253,19 @@ lists exactly what is being relied on and how each piece fails.
   itself, but they aren't a public API and a future release could change them.
   If that happens the launcher reports the failure rather than quietly using the
   wrong profile.
+- **Codex is looked for in standard locations only** — `/Applications` and
+  `~/Applications`, plus a LaunchServices lookup by bundle identifier. There is
+  no filesystem-wide search by design. If your Codex lives elsewhere, pin it
+  once:
+
+  ```bash
+  mkdir -p ~/Library/Application\ Support/CodexTheSecond
+  echo "/path/to/Codex.app" > ~/Library/Application\ Support/CodexTheSecond/codex-app-path
+  ```
+
+  When several candidates exist the order is fixed and documented, so the choice
+  is deterministic rather than whichever was found first. A pinned path that is
+  wrong fails loudly instead of falling back.
 - **Every release states the Codex Desktop build it was verified against** — in
   the release title and notes, and in [`tested-with.json`](tested-with.json). If
   your Codex is much newer, that is the first thing to check.

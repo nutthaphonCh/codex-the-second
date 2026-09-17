@@ -117,6 +117,11 @@ func run() {
             homeDirectory: home
         )
 
+        // Consult the filesystem before anything else acts on the plan, so a
+        // profile that only looks isolated cannot reach Codex - and so
+        // --print-plan reports what would really happen, not the intent.
+        try IsolationGuard().assertIsolated(plan, homeDirectory: home)
+
         if arguments.contains("--print-plan") {
             var described = plan.describedForDiagnostics
             described["profile"] = profile.name

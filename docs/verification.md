@@ -1,180 +1,196 @@
-# Manual verification
+# Verification
 
-Unit tests cover profile validation and launch-command construction. They cannot
-prove that two Codex instances really are isolated — that needs the real
-application. This is the procedure, and the results from the run that shipped
-v0.2.0.
+What has actually been checked against the real Codex Desktop application, how,
+and — just as importantly — what has **not**.
 
-> **Do not paste tokens anywhere.** No step below needs to read `auth.json`, and
-> `--print-plan` deliberately prints only `CODEX_HOME` and
-> `CODEX_ELECTRON_USER_DATA_PATH`, never the inherited environment.
+Unit tests cover launch-plan construction and the isolation guard. They cannot
+show that two running Codex instances are separate. Only the real application
+can, so this record exists and is kept honest.
 
-## 0. Preview the launch without launching
+## Evidence levels
+
+Claims below are labelled, and the labels are meant literally.
+
+| Label | Meaning |
+| --- | --- |
+| **Verified** | Directly executed and the output inspected. Reproducible with the commands in this document. |
+| **Observed** | Seen to be true on a real system, but as a state rather than a controlled experiment. |
+| **Inferred** | Follows from Verified facts plus how Codex is known to behave. Not directly exercised. Treat as implementation-dependent. |
+| **Not tested** | Not attempted. Stated so nobody assumes otherwise. |
+
+Nothing inferred is described as verified.
+
+## Test subject
+
+| | |
+| --- | --- |
+| Launcher version | 0.3.0 |
+| Codex Desktop | 26.908.40834 (`com.openai.codex`, installed as `/Applications/ChatGPT.app`) |
+| macOS | 26.5.2, Apple Silicon (arm64) |
+| Default profile path | `~/.codex` |
+| Secondary profile path | `~/.codex-personal` |
+| Secondary Electron user data | `~/.codex-personal/electron-user-data` |
+| Date | 2026-09-17 |
+
+The authoritative copy of the Codex build is [`tested-with.json`](../tested-with.json),
+which is published in every release; CI fails if this document disagrees with it.
+
+## Results
+
+| # | Claim | Level |
+| --- | --- | --- |
+| 1 | Codex is located without a hardcoded path — resolved `/Applications/ChatGPT.app` by identifier, executable read from `Info.plist` | **Verified** |
+| 2 | Two Codex processes run at once, each reparented to PID 1 | **Verified** |
+| 3 | The isolation variables are present on the profile process and absent on the default one, read from the **running process**, not from the launch plan | **Verified** |
+| 4 | The secondary profile has its own Codex home — config, state, logs, SQLite stores | **Verified** |
+| 5 | The secondary profile has its own Chromium profile — Cookies, Local Storage, Session Storage | **Verified** |
+| 6 | Profile directories are created `0700` | **Verified** |
+| 7 | Each instance holds its own Electron `SingletonLock`, naming different PIDs | **Verified** |
+| 8 | `~/.codex/auth.json` is unchanged by running the secondary profile — identical size and mtime before and after | **Verified** |
+| 9 | Relaunching the profile app focuses the running instance instead of starting a third | **Verified** |
+| 10 | A missing or unusable Codex exits non-zero with an explanation rather than failing silently | **Verified** |
+| 11 | A profile configured at `~/.codex` is refused before launch | **Verified** |
+| 12 | A profile that reaches `~/.codex` through a **symlink** or a different **letter case** is refused before launch | **Verified** |
+| 13 | The two instances are signed into different accounts — `~/.codex/auth.json` and `~/.codex-personal/auth.json` are both `0600`, differ in content, and were last written 2 days apart | **Observed** |
+| 14 | Each profile keeps its session across a restart | **Inferred** — the session state lives under the isolated path, and Codex reads it from there; not exercised as a restart cycle |
+| 15 | Both accounts remain logged in after restarting **both** instances | **Not tested** — see below |
+
+### Why #15 was not tested
+
+It requires quitting the user's running Codex instances, which is not something
+this record's author could do to someone else's session. The sign-ins in #13
+were performed by the account owner, not by the author.
+
+To check it yourself: quit both applications, reopen both, and confirm each
+returns to its own account. If you do, the result belongs in this table.
+
+## Procedure
+
+Alerts are suppressed so a failure path cannot block on a modal dialog:
 
 ```bash
-"/Applications/Codex Personal.app/Contents/MacOS/CodexTheSecond" --print-plan
+export CODEX_THE_SECOND_NO_ALERTS=1
+BIN="/Applications/Codex Personal.app/Contents/MacOS/CodexTheSecond"
 ```
 
-Confirms which Codex was found and what would be passed to it:
+**Resolution, without launching** — covers #1:
 
-```json
-{
-  "arguments": ["--user-data-dir=/Users/you/.codex-personal/electron-user-data"],
-  "codexBundle": "/Applications/ChatGPT.app",
-  "codexBundleIdentifier": "com.openai.codex",
-  "codexVersion": "26.908.40834",
-  "environment": {
-    "CODEX_HOME": "/Users/you/.codex-personal",
-    "CODEX_ELECTRON_USER_DATA_PATH": "/Users/you/.codex-personal/electron-user-data"
-  },
-  "executable": "/Applications/ChatGPT.app/Contents/MacOS/ChatGPT"
-}
+```bash
+"$BIN" --print-plan
 ```
 
-`codexBundle` being `ChatGPT.app` is expected: that is how Codex Desktop is
-currently packaged. The `com.openai.codex` identifier is what confirms it.
+Prints the bundle it found, its identifier and version, the executable, and the
+two isolation variables. It deliberately prints **nothing else from the
+environment**; a unit test asserts that, so this is safe to paste into an issue.
 
-## 1. Process isolation
-
-Start normal Codex, then open `Codex Personal.app`, then:
+**Process isolation** — covers #2:
 
 ```bash
 ps -eo pid,ppid,command | grep "Contents/MacOS/ChatGPT" | grep -v grep
 ```
 
-Expect two distinct main processes:
-
 ```
-32810  1  /Applications/ChatGPT.app/Contents/MacOS/ChatGPT --user-data-dir=/Users/you/.codex-personal/electron-user-data
-77419  1  /Applications/ChatGPT.app/Contents/MacOS/ChatGPT
+32810  1  .../MacOS/ChatGPT --user-data-dir=/Users/you/.codex-personal/electron-user-data
+77419  1  .../MacOS/ChatGPT
 ```
 
-Both have parent PID 1: the launcher spawns Codex and exits, so Codex is not a
-child of the launcher and does not die with it.
+Both show PPID 1: the launcher spawns Codex and exits, so Codex is not a child
+of the launcher and does not die with it.
 
-## 2. Environment isolation
+**Environment isolation** — covers #3. Read from the running process rather than
+from the plan, because the plan states intent and this states fact:
 
 ```bash
 for pid in $(pgrep -f "^/Applications/ChatGPT.app/Contents/MacOS/ChatGPT"); do
-  echo "--- PID $pid ---"
+  echo "PID $pid:"
   ps -E -o command= -p "$pid" | tr ' ' '\n' \
-    | grep -E "^CODEX_HOME=|^CODEX_ELECTRON_USER_DATA_PATH=|^--user-data-dir=" \
-    || echo "(no isolation vars -> default profile)"
+    | grep -E "^CODEX_HOME=|^CODEX_ELECTRON_USER_DATA_PATH="
 done
 ```
 
-Expect the profile instance to carry all three settings and normal Codex none:
-
 ```
---- PID 32810 ---
---user-data-dir=/Users/you/.codex-personal/electron-user-data
-CODEX_HOME=/Users/you/.codex-personal
-CODEX_ELECTRON_USER_DATA_PATH=/Users/you/.codex-personal/electron-user-data
---- PID 77419 ---
-(no isolation vars -> default profile)
+PID 32810:
+  CODEX_HOME=/Users/you/.codex-personal
+  CODEX_ELECTRON_USER_DATA_PATH=/Users/you/.codex-personal/electron-user-data
+PID 77419:
+  (nothing — default profile)
 ```
 
-## 3. Filesystem isolation
+**Filesystem separation** — covers #4, #5, #6, #7:
 
 ```bash
-ls ~/.codex-personal
-ls ~/.codex-personal/electron-user-data/Default | grep -iE "cookies|local storage|session"
+du -sh ~/.codex ~/.codex-personal
 stat -f "%Sp %N" ~/.codex-personal ~/.codex-personal/electron-user-data
-```
-
-Expect a complete, separate profile — `config.toml`, `installation_id`, the
-state/logs/memory SQLite databases — and a full Chromium profile beside it with
-its own `Cookies`, `Local Storage` and `Session Storage`. Both directories should
-be `drwx------`.
-
-Confirm the instance locks are separate, which is why the two never collide:
-
-```bash
+ls ~/.codex-personal/electron-user-data/Default | grep -iE "cookies|local storage|session"
 ls -la ~/.codex-personal/electron-user-data/SingletonLock
 ls -la ~/Library/Application\ Support/Codex/SingletonLock
 ```
 
-They point at different PIDs.
+Observed: 3.1G against 651M, both directories `drwx------`, four separate web
+storage entries, and two `SingletonLock` symlinks naming different PIDs.
 
-Confirm your normal profile was not touched. Record this **before** first
-launching the profile app and compare after:
+**The default profile is untouched** — covers #8. Record before the first launch
+of the profile app and compare afterwards:
 
 ```bash
 stat -f "mtime=%m size=%z" ~/.codex/auth.json
 ```
 
-It must be unchanged.
-
-## 4. Authentication isolation
-
-1. Sign normal Codex into account A.
-2. Open `Codex Personal.app` and sign into account B.
-3. Quit both.
-4. Reopen both.
-
-Each should come back signed into its own account. `~/.codex/auth.json` and
-`~/.codex-personal/auth.json` are separate files; neither is read or written by
-the other instance.
-
-## 5. Relaunch behaviour
-
-With `Codex Personal.app` already running, open it again. The existing profile
-window should come forward and **no third process** should appear:
+**Authentication** — covers #13. **Never print token contents.** Compare
+metadata only:
 
 ```bash
-pgrep -fc "Contents/MacOS/ChatGPT"   # unchanged
+cmp -s ~/.codex/auth.json ~/.codex-personal/auth.json \
+  && echo "same — not isolated" || echo "different — isolated"
+stat -f "%Sp %N" ~/.codex/auth.json ~/.codex-personal/auth.json
 ```
 
-This is Codex's own single-instance lock, scoped to the profile's user-data
-directory.
-
-## 6. Error handling
-
-Alerts are suppressed here so the check cannot block on a modal dialog:
+**Failure paths** — covers #10, #11, #12:
 
 ```bash
-CODEX_THE_SECOND_NO_ALERTS=1 \
-CODEX_THE_SECOND_CODEX_APP=/nonexistent/Codex.app \
-  "/Applications/Codex Personal.app/Contents/MacOS/CodexTheSecond" --print-plan
-```
+# Codex pinned somewhere it is not
+CODEX_THE_SECOND_CODEX_APP=/nonexistent/Codex.app "$BIN" --print-plan; echo "exit=$?"
 
-Expect exit status 1 and a readable explanation. Run from Finder instead, the
-same message appears as a native alert.
-
-The safety rail that protects your normal profile:
-
-```bash
+# a profile pointed straight at the default
 python3 -c "import json;p=json.load(open('profiles/personal.json'));p['codexHome']='~/.codex';print(json.dumps(p))" > /tmp/bad.json
-CODEX_THE_SECOND_NO_ALERTS=1 CODEX_THE_SECOND_PROFILE_FILE=/tmp/bad.json \
-  "/Applications/Codex Personal.app/Contents/MacOS/CodexTheSecond" --print-plan
-rm /tmp/bad.json
+CODEX_THE_SECOND_PROFILE_FILE=/tmp/bad.json "$BIN" --print-plan; echo "exit=$?"
+
+# a profile that only looks separate: a symlink back to the default
+ln -s ~/.codex /tmp/looks-separate
+python3 -c "import json,sys;p=json.load(open('profiles/personal.json'));p['codexHome']='/tmp/looks-separate';p['electronUserDataPath']='/tmp/looks-separate/electron-user-data';print(json.dumps(p))" > /tmp/link.json
+CODEX_THE_SECOND_PROFILE_FILE=/tmp/link.json "$BIN" --print-plan; echo "exit=$?"
+rm /tmp/bad.json /tmp/link.json /tmp/looks-separate
 ```
 
-The launcher must refuse to run rather than share `~/.codex`.
+All three must exit `1` with an explanation. The third is the one that matters
+most: before v0.3.0 it exited `0` and would have started the secondary launcher
+against the primary profile.
 
-## Results for v0.2.0
+## What this is not
 
-Verified on macOS 26.5.2 (Apple Silicon) against Codex Desktop 26.908.40834.
-The authoritative record is [`tested-with.json`](../tested-with.json), which is
-published in every release and checked against this file by CI:
+The launcher redirects **where Codex stores a profile**. That is the whole of
+it, and the words below are chosen deliberately.
 
-| Check | Result |
-| --- | --- |
-| Codex located without a hardcoded path | Pass — found `ChatGPT.app` by `com.openai.codex` |
-| Two independent processes, both reparented to PID 1 | Pass |
-| Isolation variables present on the profile instance only | Pass |
-| Separate Codex home with its own config, state and logs | Pass |
-| Separate Chromium profile: cookies, localStorage, session storage | Pass |
-| Profile directories created `0700` | Pass |
-| Per-profile `SingletonLock` | Pass |
-| `~/.codex/auth.json` unchanged | Pass — identical mtime and size |
-| Relaunch focuses the existing instance, no duplicate | Pass |
-| Missing Codex reported, exit 1 | Pass |
-| Profile pointed at `~/.codex` refused | Pass |
-| Two accounts signed in independently | Pass - separate `auth.json`, both `0600` |
-| `~/.codex/auth.json` untouched by the second profile | Pass - unchanged since before the profile existed |
+It provides an **isolated profile** — a separate profile namespace, a separate
+Electron user-data directory, separate session and authentication state.
 
-Step 4 was confirmed with two real accounts: `~/.codex/auth.json` and
-`~/.codex-personal/auth.json` are different files with different contents, and
-the default one was last written before the second profile existed. Neither file
-was read or printed during verification.
+It is **not** a security sandbox, a filesystem sandbox, a container, process
+confinement, or anything VM-like. The spawned Codex:
+
+- runs as the **same macOS user**, with that user's full permissions
+- can read and write **anything outside** the redirected profile locations,
+  including `~/.codex`, if it or something it runs chooses to
+- is the **same binary**, with the same entitlements, as your normal Codex
+
+The isolation is a matter of configuration, not enforcement. It separates two
+accounts from each other; it does not contain either of them.
+
+## Limits of this record
+
+- One machine, one Codex build, one macOS version. See the table above.
+- Codex's handling of these variables is not a public API. What is verified here
+  is verified for that build; see
+  [upstream behaviour watch](../knowledge/reference/upstream-behaviour-watch.md)
+  for what to re-check after a Codex update, and which failures would be silent.
+- #14 and #15 remain open. They are the two claims a user can most easily close
+  themselves.

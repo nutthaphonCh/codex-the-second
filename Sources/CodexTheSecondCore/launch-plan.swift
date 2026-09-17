@@ -65,6 +65,42 @@ public enum LaunchPlanBuilder {
             )
         }
 
+        // The identifier must be derived from the slug, so two profiles can
+        // never collide and a generated bundle's identity is predictable from
+        // its configuration alone. The namespace itself is left to the owner,
+        // so a fork does not have to keep ours.
+        guard profile.bundleIdentifier.hasSuffix("." + profile.slug) else {
+            throw LauncherError.profileInvalid(
+                reason: """
+                The bundle identifier \"\(profile.bundleIdentifier)\" must end \
+                with \".\(profile.slug)\", so each profile has its own identity.
+                """
+            )
+        }
+        guard !profile.bundleIdentifier.lowercased().hasPrefix("com.openai") else {
+            throw LauncherError.profileInvalid(
+                reason: """
+                The bundle identifier must not start with \"com.openai\". This \
+                launcher must never claim to be Codex itself.
+                """
+            )
+        }
+        let allowedIdentifier = CharacterSet(charactersIn:
+            "abcdefghijklmnopqrstuvwxyz0123456789.-")
+        guard profile.bundleIdentifier.unicodeScalars.allSatisfy({ allowedIdentifier.contains($0) }),
+              !profile.bundleIdentifier.hasPrefix("."),
+              !profile.bundleIdentifier.hasSuffix("."),
+              profile.bundleIdentifier.contains(".")
+        else {
+            throw LauncherError.profileInvalid(
+                reason: """
+                The bundle identifier \"\(profile.bundleIdentifier)\" must be a \
+                reverse-DNS name in lowercase, for example \
+                \"io.github.<owner>.codex-the-second.\(profile.slug)\".
+                """
+            )
+        }
+
         let codexHome = PathResolver.expand(profile.codexHome, homeDirectory: homeDirectory)
         let electronData = PathResolver.expand(profile.electronUserDataPath, homeDirectory: homeDirectory)
 

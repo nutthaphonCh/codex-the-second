@@ -7,6 +7,7 @@ public enum LauncherError: Error, Equatable {
     case profileUnreadable(path: String, underlying: String)
     case profileMalformed(path: String, underlying: String)
     case profileInvalid(reason: String)
+    case profileResolvesToDefault(configured: String, resolved: String, defaultHome: String, reason: String)
     case codexNotFound(searched: [String])
     case codexPathInvalid(path: String, reason: String)
     case directoryCreationFailed(path: String, underlying: String)
@@ -17,6 +18,8 @@ public enum LauncherError: Error, Equatable {
         switch self {
         case .profileMissing, .profileUnreadable, .profileMalformed, .profileInvalid:
             return "This launcher is not configured correctly."
+        case .profileResolvesToDefault:
+            return "This profile would share your main Codex account."
         case .codexNotFound, .codexPathInvalid:
             return "Codex could not be found."
         case .directoryCreationFailed:
@@ -62,6 +65,25 @@ public enum LauncherError: Error, Equatable {
             The profile configuration was rejected.
 
             \(reason)
+            """
+        case let .profileResolvesToDefault(configured, resolved, defaultHome, reason):
+            return """
+            This profile was set up to use its own folder, but on disk that \
+            folder leads to the one your normal Codex uses.
+
+            Profile folder:
+             \(configured)
+
+            Which actually leads to:
+             \(resolved)
+
+            Your normal Codex uses:
+             \(defaultHome)
+
+            \(reason)
+
+            Nothing was started and nothing was changed. Point this profile at \
+            a different folder before trying again.
             """
         case let .codexNotFound(searched):
             let list = searched.map { " \($0)" }.joined(separator: "\n")

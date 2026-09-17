@@ -12,7 +12,7 @@ than shipping a mislabelled artifact.
 **How to apply:**
 
 0. If Codex Desktop has changed since the last release, re-run
-   [[verify-profile-isolation]] and update `tested-with.json` first. Every
+   [docs/verification.md](../../docs/verification.md) and update `tested-with.json` first. Every
    release publishes the Codex build it was verified against, in both the
    release title and a **Tested against** table in the notes — CI fails if any
    document quotes a different version.
@@ -55,4 +55,4 @@ shasum -a 256 -c SHA256SUMS.txt
 Nothing third-party is used to publish; it is `gh release create` with the
 built-in token.
 
-Related: [[signing-and-gatekeeper]], [[verify-profile-isolation]]
+Related: [[signing-and-gatekeeper]], [docs/verification.md](../../docs/verification.md)

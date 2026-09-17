@@ -24,7 +24,7 @@ BIN="/Applications/Codex Personal.app/Contents/MacOS/CodexTheSecond"
 | "Codex could not be found" | Codex not installed, or somewhere unusual | pin the path (below) |
 | Found the wrong app | another bundle matched first | pin the path |
 | "This launcher is not configured correctly" | missing or invalid `profile.json` in the bundle | rebuild, or reinstall from the DMG |
-| "would use the default Codex folder" | profile points at `~/.codex` | fix `codexHome`; see [[add-a-new-profile]] |
+| "would use the default Codex folder" | profile points at `~/.codex` | fix `codexHome`; see [`profiles/`](../../profiles) |
 | Starts, then exits immediately | Codex rejected the launch options | check whether Codex changed; see [[upstream-behaviour-watch]] |
 | Opens on the wrong account | `CODEX_HOME` overridden | check both variables are in `--print-plan` output |
 
@@ -49,4 +49,4 @@ Check what is actually running, and with which profile:
 ps -eo pid,ppid,command | grep "Contents/MacOS/ChatGPT" | grep -v grep
 ```
 
-Related: [[codex-desktop-bundle]], [[verify-profile-isolation]]
+Related: [[codex-desktop-bundle]], [docs/verification.md](../../docs/verification.md)
