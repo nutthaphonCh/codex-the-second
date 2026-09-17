@@ -1,8 +1,8 @@
 <div align="center">
 
-# Codex Profile Launcher
+<img src="docs/assets/hero.svg" alt="The 2nd Codex - two Codex accounts, side by side, at the same time. Codex.app keeps ~/.codex untouched; Codex Personal.app gets its own ~/.codex-personal." width="900">
 
-### Two Codex accounts. Side by side. At the same time.
+# Codex Profile Launcher
 
 [![CI](https://github.com/nutthaphonCh/codex-the-second/actions/workflows/ci.yml/badge.svg)](https://github.com/nutthaphonCh/codex-the-second/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/nutthaphonCh/codex-the-second?color=7C5CFF)](https://github.com/nutthaphonCh/codex-the-second/releases/latest)
