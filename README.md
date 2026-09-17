@@ -67,7 +67,7 @@ ever printing your environment or tokens.
 
 **It's verified, not just compiled.** Process, environment, filesystem and
 session isolation were each checked against the real app. See
-[docs/VERIFICATION.md](docs/VERIFICATION.md).
+[docs/verification.md](docs/verification.md).
 
 ---
 
@@ -228,6 +228,17 @@ what happened. It never fails silently, and you never need a Terminal to find
 out why.
 
 ---
+
+## Knowledge base
+
+`knowledge/` holds the reasoning behind this project, one fact or procedure per
+file: how Codex Desktop is actually packaged, why both environment variables are
+required, how the single-instance lock makes coexistence possible, and the
+procedures for adding a profile, cutting a release or debugging a launch.
+
+Start at [knowledge/README.md](knowledge/README.md). If Codex changes and this
+stops working, [upstream behaviour watch](knowledge/reference/upstream-behaviour-watch.md)
+lists exactly what is being relied on and how each piece fails.
 
 ## Limitations
 

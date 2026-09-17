@@ -36,6 +36,9 @@ jobs:
           xcodebuild -version
           swift --version
 
+      - name: Check the knowledge base
+        run: ./scripts/check-knowledge.sh
+
       - name: Run unit tests
         run: ./scripts/test.sh
 
