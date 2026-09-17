@@ -96,15 +96,7 @@ func run() {
     }
 
     let locator = CodexAppLocator(
-        launchServicesLookup: { identifiers in
-            // A lookup only. Codex is always started as a direct child process.
-            for identifier in identifiers {
-                if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: identifier) {
-                    return url.path
-                }
-            }
-            return nil
-        }
+        launchServicesLookup: LaunchServicesLookup.path(forAnyOf:)
     )
 
     do {

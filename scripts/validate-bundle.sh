@@ -26,6 +26,7 @@ INFO_PLIST="${APP_BUNDLE}/Contents/Info.plist"
 
 check "bundle exists"                test -d "${APP_BUNDLE}"
 check "executable exists"            test -x "${EXECUTABLE}"
+check "c2nd command exists"          test -x "${APP_BUNDLE}/Contents/MacOS/c2nd"
 check "Info.plist is valid"          plutil -lint "${INFO_PLIST}"
 check "profile.json is present"      test -f "${APP_BUNDLE}/Contents/Resources/profile.json"
 # plutil -lint only accepts property lists; -convert validates JSON.
@@ -59,6 +60,7 @@ fi
 export CODEX_THE_SECOND_NO_ALERTS=1
 
 echo "  ..    --version reports: $("${EXECUTABLE}" --version)"
+echo "  ..    c2nd reports:       $("${APP_BUNDLE}/Contents/MacOS/c2nd" version)"
 
 # With Codex pinned to a path that does not exist, the launcher must fail
 # cleanly and explain itself rather than hanging or exiting silently.

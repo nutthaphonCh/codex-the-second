@@ -30,5 +30,16 @@ else
   echo "==> Signing ad-hoc (no Developer ID identity configured)"
 fi
 
+# Sign inside out: a second executable in Contents/MacOS - the c2nd command -
+# must carry its own signature before the bundle is sealed, or verification
+# reports it as "not signed at all".
+MAIN_EXECUTABLE="$(plutil -extract CFBundleExecutable raw -o - "${APP_PATH}/Contents/Info.plist")"
+while IFS= read -r nested; do
+  [[ "$(basename "${nested}")" == "${MAIN_EXECUTABLE}" ]] && continue
+  file "${nested}" | grep -q "Mach-O" || continue
+  echo "==> Signing nested executable: $(basename "${nested}")"
+  codesign "${codesign_args[@]}" "${nested}"
+done < <(find "${APP_PATH}/Contents/MacOS" -type f -perm -u+x)
+
 codesign "${codesign_args[@]}" "${APP_PATH}"
 codesign --verify --strict --verbose=2 "${APP_PATH}"

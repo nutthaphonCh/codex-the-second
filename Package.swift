@@ -6,12 +6,17 @@ let package = Package(
     platforms: [.macOS(.v12)],
     products: [
         .executable(name: "CodexTheSecond", targets: ["CodexTheSecond"]),
+        .executable(name: "c2nd", targets: ["c2nd"]),
         .library(name: "CodexTheSecondCore", targets: ["CodexTheSecondCore"]),
     ],
     targets: [
         .target(name: "CodexTheSecondCore"),
         .executableTarget(
             name: "CodexTheSecond",
+            dependencies: ["CodexTheSecondCore"]
+        ),
+        .executableTarget(
+            name: "c2nd",
             dependencies: ["CodexTheSecondCore"]
         ),
         .testTarget(
