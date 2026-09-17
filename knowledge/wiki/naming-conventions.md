@@ -28,6 +28,7 @@ consistently.
 | `Package.swift` | SwiftPM requires this exact filename |
 | `main.swift` | required for an executable target's top-level code |
 | `README.md` | GitHub renders it; `knowledge/README.md` indexes that folder |
+| `CLAUDE.md` | read automatically by Claude Code in this repository |
 | `LICENSE` | GitHub's licence detection expects it |
 | `VERSION` | conventional, and read by the build scripts |
 | `Sources/`, `Tests/` | SwiftPM's default layout |

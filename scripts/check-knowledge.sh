@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Validates the knowledge base.
+# Validates the knowledge base, and the links CLAUDE.md makes into it.
 #
 # Checks that every entry has well-formed frontmatter, that its name matches its
 # filename, that every [[wiki-link]] resolves, that every entry is indexed, and
@@ -61,8 +61,16 @@ for name, path in sorted(names.items()):
     if str(path.relative_to(root)) not in index_text:
         failures.append(f"{path}: not listed in knowledge/README.md")
 
+# CLAUDE.md points into knowledge/ heavily; those links must not rot either
+claude_md = pathlib.Path("CLAUDE.md")
+checked = [index, *entries]
+if claude_md.exists():
+    checked.append(claude_md)
+else:
+    failures.append("CLAUDE.md is missing")
+
 # relative markdown links must point at files that exist
-for path in [index, *entries]:
+for path in checked:
     for target in re.findall(r"\]\((?!https?://|#)([^)]+)\)", path.read_text()):
         target = target.split("#")[0]
         if target and not (path.parent / target).resolve().exists():
@@ -77,5 +85,5 @@ if failures:
 print(f"  ok    {len(entries)} entries, frontmatter valid")
 print(f"  ok    all [[wiki-links]] resolve")
 print(f"  ok    all entries indexed in knowledge/README.md")
-print(f"  ok    all relative links resolve")
+print(f"  ok    all relative links resolve, CLAUDE.md included")
 PY
