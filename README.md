@@ -1,74 +1,120 @@
+<div align="center">
+
 # Codex Profile Launcher
 
-Run a second Codex Desktop account alongside your normal one, on macOS.
+### Two Codex accounts. Side by side. At the same time.
 
-`Codex Personal.app` is a small native launcher. It starts the copy of Codex you
-already have installed, but points it at a separate profile directory, so it
-signs in independently and runs at the same time as your normal Codex.
+[![CI](https://github.com/nutthaphonCh/codex-the-second/actions/workflows/ci.yml/badge.svg)](https://github.com/nutthaphonCh/codex-the-second/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/nutthaphonCh/codex-the-second?color=7C5CFF)](https://github.com/nutthaphonCh/codex-the-second/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![macOS](https://img.shields.io/badge/macOS-12%2B-lightgrey?logo=apple)](#building-from-source)
+
+**[Download the DMG →](https://github.com/nutthaphonCh/codex-the-second/releases/latest)**
+
+</div>
+
+---
+
+## The problem
+
+You have a work Codex account and a personal one. Codex Desktop signs into one
+at a time. So you sign out. Sign in. Wait for it to reload. Realise you needed
+the other one. Sign out again.
+
+## The fix
 
 ```
-/Applications/Codex.app             ->  your normal account, ~/.codex
-/Applications/Codex Personal.app    ->  a second account,    ~/.codex-personal
+/Applications/Codex.app             →  work account      →  ~/.codex
+/Applications/Codex Personal.app    →  personal account  →  ~/.codex-personal
 ```
 
-Both run at once. Closing one does not affect the other, and each keeps its own
-login between restarts.
+Two apps in your Dock. Both open. Both signed in. Neither knows the other
+exists.
 
-## What it does not do
+<div align="center">
 
-- **It does not include Codex.** You install Codex Desktop yourself.
-- **It does not modify Codex.** No files in the Codex application bundle are
-  touched, copied or redistributed.
-- **It does not touch `~/.codex`.** Your existing profile is left exactly as it
-  is. The launcher refuses to start if a profile is ever pointed at it.
-- **It is not affiliated with OpenAI.** Codex is a product of OpenAI. This is an
-  independent utility, not endorsed or sponsored by them.
+| | Codex.app | Codex Personal.app |
+|---|---|---|
+| **Account** | your usual one | the second one |
+| **Runs at the same time?** | ✅ | ✅ |
+| **Own login, kept between restarts** | ✅ | ✅ |
+| **Own history, settings, sessions** | ✅ | ✅ |
+| **Affected when you quit the other** | ❌ never | ❌ never |
+
+</div>
+
+Need a third? [One JSON file](#want-a-third-one) and you have `Codex Work.app`.
+
+---
+
+## Why you can trust it with your setup
+
+**It never touches your existing Codex.** Not the app bundle, not `~/.codex`,
+not your config, not your credentials. The launcher's entire job is to pick a
+different folder and start the Codex you already have. It will refuse to run —
+loudly — if a profile is ever pointed at your real `~/.codex`.
+
+**It's tiny and native.** ~500 lines of Swift, a 976 KB universal binary. No
+Electron, no runtime, no daemon, no menu-bar icon, no telemetry. It starts
+Codex and exits.
+
+**Nothing of OpenAI's is redistributed.** The DMG contains this launcher and
+nothing else. You install Codex Desktop yourself, from OpenAI.
+
+**It shows its work.** Run `--print-plan` and it prints exactly which Codex it
+found and what it would pass to it, without launching anything — and without
+ever printing your environment or tokens.
+
+**It's verified, not just compiled.** Process, environment, filesystem and
+session isolation were each checked against the real app. See
+[docs/VERIFICATION.md](docs/VERIFICATION.md).
+
+---
 
 ## Install
 
-1. Download `Codex-Profile-Launcher-vX.Y.Z.dmg` from
-   [Releases](../../releases).
-2. Open the DMG and drag **Codex Personal** into **Applications**.
-3. Open **Codex Personal** and sign in with your second account.
+1. Grab `Codex-Profile-Launcher-vX.Y.Z.dmg` from
+   [Releases](https://github.com/nutthaphonCh/codex-the-second/releases/latest)
+2. Open it, drag **Codex Personal** into **Applications**
+3. Launch it, sign in with your second account
 
-### Gatekeeper
+That's it. Your first account carries on exactly as before.
 
-Public builds are **ad-hoc signed**, not signed with an Apple Developer ID and
-not notarized. Apple charges for the certificate that would make the warning go
-away, so the first launch shows:
+<details>
+<summary><b>First launch shows a macOS warning — here's why, and what to do</b></summary>
+
+<br>
+
+Builds are **ad-hoc signed**, not signed with an Apple Developer ID
+(that certificate costs money). So macOS says:
 
 > "Codex Personal" cannot be opened because Apple cannot check it for malicious
 > software.
 
-To open it, right-click **Codex Personal** in Applications, choose **Open**, and
-confirm. macOS remembers the decision; subsequent launches are normal.
+**Right-click** the app in Applications → **Open** → confirm. Once. macOS
+remembers.
 
-Do this only for a build you trust. Verify your download first:
+Verify your download first if you like:
 
 ```bash
 shasum -a 256 -c SHA256SUMS.txt
 ```
 
-Building from source (below) produces a build signed on your own machine and
-avoids the prompt entirely. Do **not** disable Gatekeeper system-wide.
+Prefer no warning at all? [Build from source](#building-from-source) — a build
+signed on your own machine never prompts.
 
-If the maintainer later adds Developer ID secrets to the repository, the release
-workflow signs, notarizes and staples automatically, and the warning disappears
-with no code change.
+**Do not disable Gatekeeper system-wide.** You don't need to, and you shouldn't.
 
-## Usage
+If a Developer ID is ever added to this repo's secrets, releases sign, notarize
+and staple automatically — no code change, and the warning disappears.
 
-| Application | Account | Profile directory |
-| --- | --- | --- |
-| `Codex.app` | your default account | `~/.codex` |
-| `Codex Personal.app` | second account | `~/.codex-personal` |
+</details>
 
-Open either from Finder, Spotlight, Launchpad or the Dock. The launcher exits as
-soon as Codex is running, so what you see in the Dock is Codex itself.
+---
 
-## Data location
+## Where your data lives
 
-Everything the second profile stores lives under one directory:
+One folder, created on first launch, owner-only (`0700`):
 
 ```
 ~/.codex-personal/
@@ -77,39 +123,29 @@ Everything the second profile stores lives under one directory:
                                                IndexedDB, session data
 ```
 
-Created on first launch with owner-only permissions (`0700`). Nothing is copied
-from `~/.codex`, and no credentials move between profiles.
+Nothing is copied from `~/.codex`. No credentials ever move between profiles.
 
-## Uninstall
-
-Delete the launcher:
-
-```
-/Applications/Codex Personal.app
-```
-
-**Your profile data is deliberately left behind.** Removing the app does not
-touch `~/.codex-personal`, so reinstalling restores your session.
-
-To erase the second profile as well — this signs that account out and deletes
-its history, and cannot be undone:
+**Uninstalling keeps your data.** Deleting `/Applications/Codex Personal.app`
+leaves `~/.codex-personal` alone, so reinstalling puts you right back where you
+were. To erase the second profile for real — this signs that account out and
+deletes its history, permanently:
 
 ```bash
 rm -rf ~/.codex-personal
 ```
 
-Your normal Codex installation and `~/.codex` are unaffected either way.
+Your normal Codex is untouched either way.
 
-## Creating more profiles
+---
 
-A profile is one JSON file. To add `Codex Work.app`:
+## Want a third one?
+
+A profile is one JSON file. No Swift to edit.
 
 ```bash
 cp profiles/work.json.example profiles/work.json
-./scripts/build.sh --profile work     # -> dist/Codex Work.app
+./scripts/build.sh --profile work        # → dist/Codex Work.app
 ```
-
-`profiles/work.json`:
 
 ```json
 {
@@ -123,51 +159,47 @@ cp profiles/work.json.example profiles/work.json
 }
 ```
 
-Give each profile its own `slug`, `bundleIdentifier`, `codexHome` and icon
-colour. Nothing in `Sources/` needs to change — the build reads the profile and
-bakes it into the generated bundle at `Contents/Resources/profile.json`.
+Each profile gets its own directory, bundle identifier, monogram and colour, so
+you can tell them apart in the Dock at a glance.
+
+---
 
 ## Building from source
 
-Requirements:
-
-- macOS 13 or newer to build (the built app runs on macOS 12+)
-- Swift 5.9+ — Xcode 15+, or Command Line Tools (`xcode-select --install`)
-- Running the tests additionally needs swift-testing, which means Xcode 16+ or
-  a recent Command Line Tools release. Building the app has no such requirement.
-- Apple Silicon or Intel; the build produces a universal binary
+- macOS 13+ to build; the result runs on macOS 12+
+- Xcode 15+ or Command Line Tools (`xcode-select --install`)
+- Produces a universal binary (Apple Silicon + Intel)
+- Running the tests also needs swift-testing — Xcode 16+, or a recent Command
+  Line Tools release. Building the app itself does not.
 
 ```bash
-./scripts/test.sh                       # unit tests
-./scripts/build.sh                      # -> dist/Codex Personal.app
-./scripts/package.sh                    # -> dist/*.dmg, *.zip, SHA256SUMS.txt
+./scripts/test.sh        # 36 unit tests
+./scripts/build.sh       # → dist/Codex Personal.app
+./scripts/package.sh     # → dist/*.dmg, *.zip, SHA256SUMS.txt
 ```
 
-Useful options:
-
 ```bash
-./scripts/build.sh --profile work       # build a different profile
-./scripts/build.sh --arch arm64         # skip the universal binary
+./scripts/build.sh --profile work        # a different profile
+./scripts/build.sh --arch arm64          # skip the universal binary
 ./scripts/validate-bundle.sh "dist/Codex Personal.app"
-```
 
-To sign with your own Developer ID instead of ad-hoc:
-
-```bash
+# sign with your own certificate instead of ad-hoc
 CODESIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" ./scripts/build.sh
 ```
 
-## How it works
+---
 
-The launcher is a Swift/AppKit shim, around 500 lines. On launch it:
+## How it actually works
 
-1. **Finds Codex.** It checks an explicit override, then the usual install
-   locations, then asks LaunchServices for the `com.openai.codex` bundle. The
-   executable name comes from the bundle's `Info.plist` rather than being
-   assumed — Codex Desktop currently ships as `ChatGPT.app` with a `ChatGPT`
-   executable, so a hardcoded path would not work.
-2. **Creates the profile directories** if they do not already exist, mode
-   `0700`. Existing data is never modified.
+On launch, the shim:
+
+1. **Finds Codex** — an explicit override, then the usual install locations,
+   then a LaunchServices lookup for `com.openai.codex`. The executable name
+   comes from the bundle's `Info.plist` rather than being assumed: Codex Desktop
+   currently ships as `ChatGPT.app` with a `ChatGPT` executable, so a hardcoded
+   path simply would not work.
+2. **Creates the profile directories** (mode `0700`) if missing. Existing data
+   is never modified, migrated or reset.
 3. **Spawns Codex directly** with `Process`, passing:
 
    ```
@@ -176,41 +208,48 @@ The launcher is a Swift/AppKit shim, around 500 lines. On launch it:
    --user-data-dir=~/.codex-personal/electron-user-data
    ```
 
-Two details make this work, both of which are behaviours of Codex itself:
+Two details are what make this work, and both are behaviours of Codex itself:
 
-- **Codex is not launched via `open`.** Going through LaunchServices can route
-  the request to an already-running Codex, which would ignore the profile
-  entirely. A direct child process also guarantees the environment is in place
-  before Electron initialises.
-- **Both environment variables are required.** Codex loads your login shell's
-  environment during startup, which would otherwise overwrite `CODEX_HOME`; it
-  re-applies the launch-time value only when `CODEX_ELECTRON_USER_DATA_PATH` is
-  also set. That same variable is what makes Codex take a single-instance lock
-  scoped to the user-data directory, which is why a profile instance and normal
-  Codex never collide.
+> **Codex is never launched with `open`.** Going through LaunchServices can hand
+> the request to an already-running Codex, which would ignore your profile
+> entirely. A direct child process also guarantees the environment is in place
+> before Electron initialises.
 
-If anything fails — Codex missing, executable unreadable, directory not
-creatable, process refusing to start — the launcher shows a native alert saying
-what went wrong. It never fails silently.
+> **Both environment variables are required.** Codex loads your login shell's
+> environment at startup, which would otherwise overwrite `CODEX_HOME` — it
+> re-applies the launch-time value only when `CODEX_ELECTRON_USER_DATA_PATH` is
+> also set. That same variable makes Codex take a single-instance lock scoped to
+> the user-data directory, which is exactly why your two instances never
+> collide.
 
-## Verifying isolation
+Anything goes wrong — Codex missing, executable unreadable, folder not
+creatable, process refusing to start — and you get a native alert that says
+what happened. It never fails silently, and you never need a Terminal to find
+out why.
 
-Unit tests cover profile validation and launch-command construction. To confirm
-the real thing, see [docs/VERIFICATION.md](docs/VERIFICATION.md).
+---
 
 ## Limitations
 
-- This depends on how Codex Desktop handles `CODEX_HOME`,
-  `CODEX_ELECTRON_USER_DATA_PATH` and `--user-data-dir`. Those are used by Codex
-  itself, but they are not a public API, and a future Codex release could change
-  them. If a Codex update breaks the launcher, it will report the failure rather
-  than silently using the wrong profile.
-- Both applications share one Dock icon identity while running, because the
-  running process is Codex. The distinct icon identifies the launcher, not the
-  running Codex window.
+- This relies on how Codex Desktop handles `CODEX_HOME`,
+  `CODEX_ELECTRON_USER_DATA_PATH` and `--user-data-dir`. Codex uses these
+  itself, but they aren't a public API and a future release could change them.
+  If that happens the launcher reports the failure rather than quietly using the
+  wrong profile.
+- While running, both windows belong to Codex, so they share one Dock icon
+  identity. The distinct icon marks the launcher, not the running window.
 - macOS only.
+
+---
+
+## What this is not
+
+- ❌ It does **not** include Codex — install Codex Desktop yourself
+- ❌ It does **not** modify, patch or redistribute Codex
+- ❌ It is **not** affiliated with, endorsed by, or sponsored by OpenAI
+
+Codex is a product of OpenAI. This is an independent utility.
 
 ## License
 
-[MIT](LICENSE). Codex is a product of OpenAI; this project is an independent
-utility and is not affiliated with or endorsed by OpenAI.
+[MIT](LICENSE) — do what you like with it.
