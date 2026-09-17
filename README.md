@@ -236,7 +236,8 @@ file: how Codex Desktop is actually packaged, why both environment variables are
 required, how the single-instance lock makes coexistence possible, and the
 procedures for adding a profile, cutting a release or debugging a launch.
 
-Start at [knowledge/README.md](knowledge/README.md). If Codex changes and this
+Start at the route table in [knowledge/README.md](knowledge/README.md): find
+what you are about to do and it names the entry. If Codex changes and this
 stops working, [upstream behaviour watch](knowledge/reference/upstream-behaviour-watch.md)
 lists exactly what is being relied on and how each piece fails.
 
