@@ -154,7 +154,9 @@ The launcher must refuse to run rather than share `~/.codex`.
 
 ## Results for v0.2.0
 
-Verified on macOS 26.5.2 (Apple Silicon) against Codex Desktop 26.908.40834:
+Verified on macOS 26.5.2 (Apple Silicon) against Codex Desktop 26.908.40834.
+The authoritative record is [`tested-with.json`](../tested-with.json), which is
+published in every release and checked against this file by CI:
 
 | Check | Result |
 | --- | --- |

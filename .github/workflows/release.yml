@@ -95,9 +95,28 @@ jobs:
             > SHA256SUMS.txt
           cat SHA256SUMS.txt
 
+      - name: Read tested Codex version
+        id: tested
+        # This project depends on Codex's own launch behaviour, which is not a
+        # public API, so every release states the build it was verified against.
+        run: |
+          for field in codexDesktopVersion macos architecture verifiedOn; do
+            value="$(plutil -extract "${field}" raw -o - tested-with.json)"
+            if [ -z "${value}" ]; then
+              echo "::error::tested-with.json is missing ${field}"
+              exit 1
+            fi
+            echo "${field}=${value}" >> "$GITHUB_OUTPUT"
+          done
+          cat "$GITHUB_OUTPUT"
+
       - name: Write release notes
         env:
           VERSION: ${{ steps.version.outputs.version }}
+          CODEX_VERSION: ${{ steps.tested.outputs.codexDesktopVersion }}
+          TESTED_MACOS: ${{ steps.tested.outputs.macos }}
+          TESTED_ARCH: ${{ steps.tested.outputs.architecture }}
+          TESTED_ON: ${{ steps.tested.outputs.verifiedOn }}
         run: |
           if [ -n "${CODESIGN_IDENTITY}" ]; then
             signing="This build is signed with a Developer ID certificate."
@@ -118,6 +137,20 @@ jobs:
           include, modify or redistribute Codex, and is not affiliated with
           OpenAI.
 
+          ## Tested against
+
+          | | |
+          |---|---|
+          | Codex Desktop | \`${CODEX_VERSION}\` |
+          | macOS | ${TESTED_MACOS} (${TESTED_ARCH}) |
+          | Verified on | ${TESTED_ON} |
+
+          This launcher relies on how Codex Desktop handles \`CODEX_HOME\`,
+          \`CODEX_ELECTRON_USER_DATA_PATH\` and \`--user-data-dir\`. Codex uses
+          these itself, but they are not a public API. On a much newer Codex
+          build the launcher may need an update - it reports a failure rather
+          than silently using the wrong profile.
+
           Your second profile is stored in \`~/.codex-personal\`. Your normal
           Codex installation and its \`~/.codex\` folder are left untouched.
 
@@ -136,7 +169,7 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           gh release create "v${VERSION}" \
-            --title "v${VERSION}" \
+            --title "v${VERSION} - tested with Codex ${{ steps.tested.outputs.codexDesktopVersion }}" \
             --notes-file release-notes.md \
             "dist/Codex-the-2nd-v${VERSION}.dmg" \
             "dist/Codex-the-2nd-v${VERSION}.zip" \

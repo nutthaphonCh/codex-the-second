@@ -1,0 +1,9 @@
+{
+  "comment": "The Codex Desktop build this release was verified against. This project relies on Codex's own launch behaviour, which is not a public API, so the tested version is published with every release. Update this file only after re-running docs/verification.md.",
+  "codexDesktopVersion": "26.908.40834",
+  "codexBundleIdentifier": "com.openai.codex",
+  "codexBundlePath": "/Applications/ChatGPT.app",
+  "macos": "26.5.2",
+  "architecture": "arm64",
+  "verifiedOn": "2026-09-17"
+}

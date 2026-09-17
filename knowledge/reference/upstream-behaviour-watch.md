@@ -11,6 +11,11 @@ diagnosed in minutes instead of rediscovered.
 
 Observed against **Codex Desktop 26.908.40834** on macOS 26.5.2 (Apple Silicon).
 
+That version lives in [`tested-with.json`](../../tested-with.json) at the
+repository root — one source of truth, published in every release's notes and
+title. CI fails if a document quotes a different version, so update the JSON
+first and only after re-running [[verify-profile-isolation]].
+
 | Depends on | Currently | If it changes |
 | --- | --- | --- |
 | Bundle location and identifier | `/Applications/ChatGPT.app`, `com.openai.codex` | discovery fails; alert names every path searched. Fix: pin the path, then add the new location to the candidate list |
