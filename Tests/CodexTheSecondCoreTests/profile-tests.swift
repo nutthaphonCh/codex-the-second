@@ -29,13 +29,15 @@ struct ProfileTests {
         }
     }
 
-    @Test func personalProfileMatchesDocumentedPaths() throws {
+    @Test func defaultProfileMatchesDocumentedPaths() throws {
         let profile = try Profile.load(
-            contentsOf: Self.repositoryRoot.appendingPathComponent("profiles/personal.json")
+            contentsOf: Self.repositoryRoot.appendingPathComponent("profiles/2nd.json")
         )
-        #expect(profile.appName == "Codex Personal")
-        #expect(profile.codexHome == "~/.codex-personal")
-        #expect(profile.electronUserDataPath == "~/.codex-personal/electron-user-data")
+        #expect(profile.appName == "Codex the 2nd")
+        #expect(profile.codexHome == "~/.codex-the-second")
+        #expect(profile.electronUserDataPath == "~/.codex-the-second/electron-user-data")
+        // Anyone upgrading from an earlier release still has the old folder.
+        #expect(profile.migrateFrom == "~/.codex-personal")
     }
 
     @Test func roundTripsThroughJSON() throws {

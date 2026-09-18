@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/hero.svg" alt="Codex the 2nd - two Codex accounts, side by side, at the same time. Codex.app keeps ~/.codex untouched; Codex Personal.app gets its own ~/.codex-personal." width="900">
+<img src="docs/assets/hero.svg" alt="Codex the 2nd - two Codex accounts, side by side, at the same time. Codex.app keeps ~/.codex untouched; Codex the 2nd.app gets its own ~/.codex-the-second." width="900">
 
 # Codex the 2nd
 
@@ -25,7 +25,7 @@ the other one. Sign out again.
 
 ```
 /Applications/Codex.app             →  work account      →  ~/.codex
-/Applications/Codex Personal.app    →  personal account  →  ~/.codex-personal
+/Applications/Codex the 2nd.app    →  personal account  →  ~/.codex-the-second
 ```
 
 Two apps in your Dock. Both open. Both signed in. Neither knows the other
@@ -33,7 +33,7 @@ exists.
 
 <div align="center">
 
-| | Codex.app | Codex Personal.app |
+| | Codex.app | Codex the 2nd.app |
 |---|---|---|
 | **Account** | your usual one | the second one |
 | **Runs at the same time?** | ✅ | ✅ |
@@ -80,7 +80,7 @@ session isolation were each checked against the real app. See
 
 1. Grab `Codex-the-2nd-vX.Y.Z.dmg` from
    [Releases](https://github.com/nutthaphonCh/codex-the-second/releases/latest)
-2. Open it, drag **Codex Personal** into **Applications**
+2. Open it, drag **Codex the 2nd** into **Applications**
 3. Launch it, sign in with your second account
 
 That's it. Your first account carries on exactly as before.
@@ -93,7 +93,7 @@ That's it. Your first account carries on exactly as before.
 Builds are **ad-hoc signed**, not signed with an Apple Developer ID
 (that certificate costs money). So macOS says:
 
-> "Codex Personal" cannot be opened because Apple cannot check it for malicious
+> "Codex the 2nd" cannot be opened because Apple cannot check it for malicious
 > software.
 
 **Right-click** the app in Applications → **Open** → confirm. Once. macOS
@@ -122,20 +122,20 @@ and staple automatically — no code change, and the warning disappears.
 `c2nd` ships inside the app. Put it on your PATH once:
 
 ```bash
-sudo ln -sf "/Applications/Codex Personal.app/Contents/MacOS/c2nd" /usr/local/bin/c2nd
+sudo ln -sf "/Applications/Codex the 2nd.app/Contents/MacOS/c2nd" /usr/local/bin/c2nd
 ```
 
 ```bash
 c2nd                    # installed profiles, their folders, running or not
-c2nd launch personal    # start a profile
-c2nd plan personal      # what would be launched, without launching
+c2nd launch 2nd    # start a profile
+c2nd plan 2nd      # what would be launched, without launching
 c2nd doctor             # check Codex, every profile, and its isolation
 ```
 
 ```
 $ c2nd
 PROFILE      APP                      CODEX_HOME                      STATE
-personal     Codex Personal           ~/.codex-personal               running
+personal     Codex the 2nd           ~/.codex-the-second               running
 
 $ c2nd doctor
 Codex Desktop
@@ -156,7 +156,7 @@ rest of your environment, so their output is safe to paste into an issue.
 One folder, created on first launch, owner-only (`0700`):
 
 ```
-~/.codex-personal/
+~/.codex-the-second/
 ├── config.toml, auth, logs, state, sessions   Codex's own profile data
 └── electron-user-data/                        cookies, localStorage,
                                                IndexedDB, session data
@@ -164,13 +164,13 @@ One folder, created on first launch, owner-only (`0700`):
 
 Nothing is copied from `~/.codex`. No credentials ever move between profiles.
 
-**Uninstalling keeps your data.** Deleting `/Applications/Codex Personal.app`
-leaves `~/.codex-personal` alone, so reinstalling puts you right back where you
+**Uninstalling keeps your data.** Deleting `/Applications/Codex the 2nd.app`
+leaves `~/.codex-the-second` alone, so reinstalling puts you right back where you
 were. To erase the second profile for real — this signs that account out and
 deletes its history, permanently:
 
 ```bash
-rm -rf ~/.codex-personal
+rm -rf ~/.codex-the-second
 ```
 
 Your normal Codex is untouched either way.
@@ -213,14 +213,14 @@ you can tell them apart in the Dock at a glance.
 
 ```bash
 ./scripts/test.sh        # 36 unit tests
-./scripts/build.sh       # → dist/Codex Personal.app
+./scripts/build.sh       # → dist/Codex the 2nd.app
 ./scripts/package.sh     # → dist/*.dmg, *.zip, SHA256SUMS.txt
 ```
 
 ```bash
 ./scripts/build.sh --profile work        # a different profile
 ./scripts/build.sh --arch arm64          # skip the universal binary
-./scripts/validate-bundle.sh "dist/Codex Personal.app"
+./scripts/validate-bundle.sh "dist/Codex the 2nd.app"
 
 # sign with your own certificate instead of ad-hoc
 CODESIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" ./scripts/build.sh
@@ -242,9 +242,9 @@ On launch, the shim:
 3. **Spawns Codex directly** with `Process`, passing:
 
    ```
-   CODEX_HOME=~/.codex-personal
-   CODEX_ELECTRON_USER_DATA_PATH=~/.codex-personal/electron-user-data
-   --user-data-dir=~/.codex-personal/electron-user-data
+   CODEX_HOME=~/.codex-the-second
+   CODEX_ELECTRON_USER_DATA_PATH=~/.codex-the-second/electron-user-data
+   --user-data-dir=~/.codex-the-second/electron-user-data
    ```
 
 Two details are what make this work, and both are behaviours of Codex itself:

@@ -8,6 +8,22 @@ let launcherVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] 
     ?? "0.0.0-unbundled"
 
 /// Shows a native alert. Errors must be understandable without a Terminal.
+/// Asks the user a yes/no question. Returns true only for an explicit yes.
+func askToProceed(title: String, message: String, proceed: String, cancel: String) -> Bool {
+    guard alertsAreAvailable() else { return false }
+    let application = NSApplication.shared
+    application.setActivationPolicy(.regular)
+    application.activate(ignoringOtherApps: true)
+
+    let alert = NSAlert()
+    alert.alertStyle = .informational
+    alert.messageText = title
+    alert.informativeText = message
+    alert.addButton(withTitle: proceed)
+    alert.addButton(withTitle: cancel)
+    return alert.runModal() == .alertFirstButtonReturn
+}
+
 func presentAlert(title: String, message: String, style: NSAlert.Style = .critical) {
     let application = NSApplication.shared
     application.setActivationPolicy(.regular)
@@ -128,8 +144,44 @@ func run() {
             exit(0)
         }
 
+        // An earlier version of this launcher used a different folder. Offer
+        // to move it - never move it silently, and never on the way past.
+        switch ProfileMigration().inspect(profile: profile, homeDirectory: home) {
+        case let .available(from, to, byteCount):
+            let moved = askToProceed(
+                title: "Move your existing \(profile.appName) profile?",
+                message: """
+                This profile used to be stored at:
+                 \(from)
+
+                It is now stored at:
+                 \(to)
+
+                Moving it keeps you signed in and keeps your history \
+                (\(ProfileMigration.describe(byteCount: byteCount))). Nothing is \
+                copied or deleted - the folder is renamed, so it takes no extra \
+                space and can be undone.
+
+                If you skip this, \(profile.appName) starts with an empty \
+                profile and your old one is left untouched.
+                """,
+                proceed: "Move It",
+                cancel: "Start Fresh"
+            )
+            if moved {
+                try ProfileMigration().perform(from: from, to: to)
+            }
+        case let .blocked(_, _, reason):
+            FileHandle.standardError.write(Data("Skipping migration: \(reason)\n".utf8))
+        case .nothingToDo:
+            break
+        }
+
         let launcher = ProfileLauncher()
         try launcher.prepareDirectories(plan)
+
+        // Tell the agent which profile it is in, so it does not assume ~/.codex.
+        try ProfileNote().write(plan, profileName: profile.name, homeDirectory: home)
         let process = try launcher.launch(plan)
         try launcher.checkForEarlyFailure(process, executablePath: plan.executablePath)
     } catch let error as LauncherError {

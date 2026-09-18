@@ -11,6 +11,7 @@ public enum LauncherError: Error, Equatable {
     case codexNotFound(searched: [String])
     case codexPathInvalid(path: String, reason: String)
     case directoryCreationFailed(path: String, underlying: String)
+    case migrationFailed(from: String, to: String, underlying: String)
     case launchFailed(executable: String, underlying: String)
     case codexExitedImmediately(executable: String, status: Int32)
 
@@ -24,6 +25,8 @@ public enum LauncherError: Error, Equatable {
             return "Codex could not be found."
         case .directoryCreationFailed:
             return "The profile folder could not be created."
+        case .migrationFailed:
+            return "The profile folder could not be moved."
         case .launchFailed, .codexExitedImmediately:
             return "Codex could not be started."
         }
@@ -118,6 +121,21 @@ public enum LauncherError: Error, Equatable {
 
             Check that the disk is not full and that you have permission to \
             write to your home folder.
+            """
+        case let .migrationFailed(from, to, underlying):
+            return """
+            Your existing profile could not be moved to its new location.
+
+            From:
+             \(from)
+
+            To:
+             \(to)
+
+            Details: \(underlying)
+
+            Nothing was deleted. The profile is still where it was, and you can \
+            try again.
             """
         case let .launchFailed(executable, underlying):
             return """

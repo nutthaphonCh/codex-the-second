@@ -45,6 +45,6 @@ Other naming that is fixed by the project rather than the tools:
 - Bundle identifier: `io.github.nutthaphonch.codex-the-second.<slug>`
 - Environment overrides: `CODEX_THE_SECOND_*`
 - Release artifacts: `Codex-the-2nd-vX.Y.Z.dmg`
-- Generated app: `Codex <Profile>.app`, e.g. `Codex Personal.app`
+- Generated app: `Codex <Profile>.app`, e.g. `Codex the 2nd.app`
 
 Related: [the route table](../README.md)

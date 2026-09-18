@@ -1,0 +1,14 @@
+{
+  "name": "The Second",
+  "slug": "2nd",
+  "appName": "Codex the 2nd",
+  "bundleIdentifier": "io.github.nutthaphonch.codex-the-second.2nd",
+  "codexHome": "~/.codex-the-second",
+  "electronUserDataPath": "~/.codex-the-second/electron-user-data",
+  "icon": {
+    "label": "2",
+    "tintTop": "#7C5CFF",
+    "tintBottom": "#2A1B6B"
+  },
+  "migrateFrom": "~/.codex-personal"
+}

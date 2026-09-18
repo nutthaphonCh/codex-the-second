@@ -23,8 +23,8 @@ and these are not. Everything else is routed.
 ./scripts/check-tested-version.sh                   # docs agree with tested-with.json
 ./scripts/check-knowledge.sh                        # frontmatter, links, routes
 ./scripts/test.sh                                   # unit tests
-./scripts/build.sh                                  # -> dist/Codex Personal.app
-./scripts/validate-bundle.sh "dist/Codex Personal.app"
+./scripts/build.sh                                  # -> dist/Codex the 2nd.app
+./scripts/validate-bundle.sh "dist/Codex the 2nd.app"
 ```
 
 ## Everything else

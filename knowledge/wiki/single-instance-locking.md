@@ -22,16 +22,16 @@ On packaged macOS that reduces to **`hasExplicitUserDataPath`** — meaning
 | Profile instance | yes | requested, inside its own user-data directory |
 
 Electron's lock lives in the user-data directory, so a profile instance locks
-`~/.codex-personal/electron-user-data` while normal Codex has nothing to contend
+`~/.codex-the-second/electron-user-data` while normal Codex has nothing to contend
 with. Confirmed on disk — the `SingletonLock` symlinks name different PIDs:
 
 ```
-~/.codex-personal/electron-user-data/SingletonLock
+~/.codex-the-second/electron-user-data/SingletonLock
 ~/Library/Application Support/Codex/SingletonLock
 ```
 
 This also gives the correct relaunch behaviour for free: opening
-`Codex Personal.app` while it is already running fails the lock, so Codex exits
+`Codex the 2nd.app` while it is already running fails the lock, so Codex exits
 0 and focuses the existing window instead of starting a third process.
 
 Because that exit is a **successful** exit, the launcher's early-failure check
