@@ -36,6 +36,16 @@ public struct Profile: Codable, Equatable, Sendable {
     public var electronUserDataPath: String
     /// Optional pinned path to the Codex application bundle. When omitted the
     /// launcher discovers Codex itself.
+    /// Whether an agent in this profile may, **with the user's consent each
+    /// time**, read authentication from the default profile.
+    ///
+    /// Off unless a profile turns it on. It weakens the separation that is the
+    /// point of this project, so it is a decision recorded in configuration
+    /// rather than a default anyone inherits. It is guidance written into the
+    /// profile for the agent to follow — not a capability the launcher grants
+    /// and not something it can enforce.
+    public var allowAuthFromDefaultProfile: Bool?
+
     /// A folder an earlier version of this profile used. When the current
     /// `codexHome` does not exist yet and this one does, the launcher offers to
     /// move it. Never acted on without the user saying so.
@@ -50,6 +60,7 @@ public struct Profile: Codable, Equatable, Sendable {
         bundleIdentifier: String,
         codexHome: String,
         electronUserDataPath: String,
+        allowAuthFromDefaultProfile: Bool? = nil,
         migrateFrom: String? = nil,
         codexAppPath: String? = nil,
         icon: IconSpec? = nil
@@ -60,6 +71,7 @@ public struct Profile: Codable, Equatable, Sendable {
         self.bundleIdentifier = bundleIdentifier
         self.codexHome = codexHome
         self.electronUserDataPath = electronUserDataPath
+        self.allowAuthFromDefaultProfile = allowAuthFromDefaultProfile
         self.migrateFrom = migrateFrom
         self.codexAppPath = codexAppPath
         self.icon = icon

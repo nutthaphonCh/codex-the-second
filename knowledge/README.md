@@ -18,6 +18,7 @@ are worse than none.
 | touch environment variables or launch arguments | [profile-isolation-contract](wiki/profile-isolation-contract.md) |
 | change how the process is spawned | [launch-without-launchservices](wiki/launch-without-launchservices.md) |
 | work out why two instances can coexist, or why relaunch focuses | [single-instance-locking](wiki/single-instance-locking.md) |
+| change what a profile may read from the main profile, or why sign-in lands in the wrong window | [borrowing-auth-from-the-default-profile](wiki/borrowing-auth-from-the-default-profile.md) |
 | work out why a launch failed, or landed on the wrong account | [debug-a-failed-launch](skills/debug-a-failed-launch.md) — start with `c2nd doctor` |
 | add `Codex Work.app` or another profile | the ["Want a third one?"](../README.md) section of the README |
 

@@ -41,9 +41,10 @@ public struct ProfileNote {
         - Your settings, sessions, logs and credentials are under
           `\(plan.codexHome)` — **not** `\(defaultCodexHome)`. Read and write
           there, and say that path when you refer to "the Codex folder".
-        - `\(defaultCodexHome)` belongs to the user's other account. Do not read
-          from it, write to it, or copy anything out of it, unless the user asks
-          for that in so many words.
+        - `\(defaultCodexHome)` belongs to the user's other account. Whether you
+          may read anything there, and on what terms, is set out in the
+          `codex-the-second-profile` skill in this profile. Writing there is
+          never allowed.
         - Settings will look emptier here than in the other profile. That is
           expected — this profile starts fresh and is filled in as it is used.
           It is not a fault to repair by copying the other profile over.
