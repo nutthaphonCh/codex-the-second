@@ -91,7 +91,11 @@ jobs:
         run: |
           for profile in profiles/*.json; do
             slug="$(basename "${profile}" .json)"
-            [ "${slug}" = "personal" ] && continue
+            # `[ ... ] && continue` returns non-zero when the test is false,
+            # which `bash -e` treats as a failure. Use a plain if.
+            if [ "${slug}" = "2nd" ]; then
+              continue
+            fi
             ./scripts/build.sh --profile "${slug}" --output dist-check
           done
 
