@@ -78,7 +78,7 @@ jobs:
       - name: Build and package
         run: |
           ./scripts/build.sh --version "${{ steps.version.outputs.version }}"
-          ./scripts/validate-bundle.sh "dist/Codex Personal.app"
+          ./scripts/validate-bundle.sh "dist/Codex the 2nd.app"
           ./scripts/package.sh --skip-build --version "${{ steps.version.outputs.version }}"
 
       - name: Notarize and staple
@@ -121,15 +121,15 @@ jobs:
           if [ -n "${CODESIGN_IDENTITY}" ]; then
             signing="This build is signed with a Developer ID certificate."
           else
-            signing="This build is ad-hoc signed. The first time you open it, macOS will warn that the developer cannot be verified: right-click **Codex Personal** in Applications, choose **Open**, then confirm."
+            signing="This build is ad-hoc signed. The first time you open it, macOS will warn that the developer cannot be verified: right-click **Codex the 2nd** in Applications, choose **Open**, then confirm."
           fi
 
           cat > release-notes.md <<NOTES
           ## Install
 
           1. Download \`Codex-the-2nd-v${VERSION}.dmg\`
-          2. Open it and drag **Codex Personal** into **Applications**
-          3. Open **Codex Personal** and sign in with your second account
+          2. Open it and drag **Codex the 2nd** into **Applications**
+          3. Open **Codex the 2nd** and sign in with your second account
 
           ${signing}
 
@@ -151,7 +151,7 @@ jobs:
           build the launcher may need an update - it reports a failure rather
           than silently using the wrong profile.
 
-          Your second profile is stored in \`~/.codex-personal\`. Your normal
+          Your second profile is stored in \`~/.codex-the-second\`. Your normal
           Codex installation and its \`~/.codex\` folder are left untouched.
 
           ## Verify your download

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Checks that a generated .app bundle is well formed.
 #
-#   ./scripts/validate-bundle.sh "dist/Codex Personal.app"
+#   ./scripts/validate-bundle.sh "dist/Codex the 2nd.app"
 #
 # Run by CI so a broken bundle fails the build rather than reaching a release.
 set -euo pipefail

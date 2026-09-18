@@ -36,6 +36,10 @@ public struct Profile: Codable, Equatable, Sendable {
     public var electronUserDataPath: String
     /// Optional pinned path to the Codex application bundle. When omitted the
     /// launcher discovers Codex itself.
+    /// A folder an earlier version of this profile used. When the current
+    /// `codexHome` does not exist yet and this one does, the launcher offers to
+    /// move it. Never acted on without the user saying so.
+    public var migrateFrom: String?
     public var codexAppPath: String?
     public var icon: IconSpec?
 
@@ -46,6 +50,7 @@ public struct Profile: Codable, Equatable, Sendable {
         bundleIdentifier: String,
         codexHome: String,
         electronUserDataPath: String,
+        migrateFrom: String? = nil,
         codexAppPath: String? = nil,
         icon: IconSpec? = nil
     ) {
@@ -55,6 +60,7 @@ public struct Profile: Codable, Equatable, Sendable {
         self.bundleIdentifier = bundleIdentifier
         self.codexHome = codexHome
         self.electronUserDataPath = electronUserDataPath
+        self.migrateFrom = migrateFrom
         self.codexAppPath = codexAppPath
         self.icon = icon
     }

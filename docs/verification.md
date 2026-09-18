@@ -28,8 +28,8 @@ Nothing inferred is described as verified.
 | Codex Desktop | 26.908.40834 (`com.openai.codex`, installed as `/Applications/ChatGPT.app`) |
 | macOS | 26.5.2, Apple Silicon (arm64) |
 | Default profile path | `~/.codex` |
-| Secondary profile path | `~/.codex-personal` |
-| Secondary Electron user data | `~/.codex-personal/electron-user-data` |
+| Secondary profile path | `~/.codex-the-second` |
+| Secondary Electron user data | `~/.codex-the-second/electron-user-data` |
 | Date | 2026-09-17 |
 
 The authoritative copy of the Codex build is [`tested-with.json`](../tested-with.json),
@@ -51,7 +51,7 @@ which is published in every release; CI fails if this document disagrees with it
 | 10 | A missing or unusable Codex exits non-zero with an explanation rather than failing silently | **Verified** |
 | 11 | A profile configured at `~/.codex` is refused before launch | **Verified** |
 | 12 | A profile that reaches `~/.codex` through a **symlink** or a different **letter case** is refused before launch | **Verified** |
-| 13 | The two instances are signed into different accounts — `~/.codex/auth.json` and `~/.codex-personal/auth.json` are both `0600`, differ in content, and were last written 2 days apart | **Observed** |
+| 13 | The two instances are signed into different accounts — `~/.codex/auth.json` and `~/.codex-the-second/auth.json` are both `0600`, differ in content, and were last written 2 days apart | **Observed** |
 | 14 | Each profile keeps its session across a restart | **Inferred** — the session state lives under the isolated path, and Codex reads it from there; not exercised as a restart cycle |
 | 15 | Both accounts remain logged in after restarting **both** instances | **Not tested** — see below |
 
@@ -70,7 +70,7 @@ Alerts are suppressed so a failure path cannot block on a modal dialog:
 
 ```bash
 export CODEX_THE_SECOND_NO_ALERTS=1
-BIN="/Applications/Codex Personal.app/Contents/MacOS/CodexTheSecond"
+BIN="/Applications/Codex the 2nd.app/Contents/MacOS/CodexTheSecond"
 ```
 
 **Resolution, without launching** — covers #1:
@@ -119,10 +119,10 @@ PID 77419:
 **Filesystem separation** — covers #4, #5, #6, #7:
 
 ```bash
-du -sh ~/.codex ~/.codex-personal
-stat -f "%Sp %N" ~/.codex-personal ~/.codex-personal/electron-user-data
-ls ~/.codex-personal/electron-user-data/Default | grep -iE "cookies|local storage|session"
-ls -la ~/.codex-personal/electron-user-data/SingletonLock
+du -sh ~/.codex ~/.codex-the-second
+stat -f "%Sp %N" ~/.codex-the-second ~/.codex-the-second/electron-user-data
+ls ~/.codex-the-second/electron-user-data/Default | grep -iE "cookies|local storage|session"
+ls -la ~/.codex-the-second/electron-user-data/SingletonLock
 ls -la ~/Library/Application\ Support/Codex/SingletonLock
 ```
 
@@ -140,9 +140,9 @@ stat -f "mtime=%m size=%z" ~/.codex/auth.json
 metadata only:
 
 ```bash
-cmp -s ~/.codex/auth.json ~/.codex-personal/auth.json \
+cmp -s ~/.codex/auth.json ~/.codex-the-second/auth.json \
   && echo "same — not isolated" || echo "different — isolated"
-stat -f "%Sp %N" ~/.codex/auth.json ~/.codex-personal/auth.json
+stat -f "%Sp %N" ~/.codex/auth.json ~/.codex-the-second/auth.json
 ```
 
 **Failure paths** — covers #10, #11, #12:
@@ -152,12 +152,12 @@ stat -f "%Sp %N" ~/.codex/auth.json ~/.codex-personal/auth.json
 CODEX_THE_SECOND_CODEX_APP=/nonexistent/Codex.app "$BIN" --print-plan; echo "exit=$?"
 
 # a profile pointed straight at the default
-python3 -c "import json;p=json.load(open('profiles/personal.json'));p['codexHome']='~/.codex';print(json.dumps(p))" > /tmp/bad.json
+python3 -c "import json;p=json.load(open('profiles/2nd.json'));p['codexHome']='~/.codex';print(json.dumps(p))" > /tmp/bad.json
 CODEX_THE_SECOND_PROFILE_FILE=/tmp/bad.json "$BIN" --print-plan; echo "exit=$?"
 
 # a profile that only looks separate: a symlink back to the default
 ln -s ~/.codex /tmp/looks-separate
-python3 -c "import json,sys;p=json.load(open('profiles/personal.json'));p['codexHome']='/tmp/looks-separate';p['electronUserDataPath']='/tmp/looks-separate/electron-user-data';print(json.dumps(p))" > /tmp/link.json
+python3 -c "import json,sys;p=json.load(open('profiles/2nd.json'));p['codexHome']='/tmp/looks-separate';p['electronUserDataPath']='/tmp/looks-separate/electron-user-data';print(json.dumps(p))" > /tmp/link.json
 CODEX_THE_SECOND_PROFILE_FILE=/tmp/link.json "$BIN" --print-plan; echo "exit=$?"
 rm /tmp/bad.json /tmp/link.json /tmp/looks-separate
 ```

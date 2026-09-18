@@ -21,7 +21,7 @@ Then, for one profile in detail:
 ```bash
 # alerts off so nothing blocks on a modal dialog
 export CODEX_THE_SECOND_NO_ALERTS=1
-BIN="/Applications/Codex Personal.app/Contents/MacOS/CodexTheSecond"
+BIN="/Applications/Codex the 2nd.app/Contents/MacOS/CodexTheSecond"
 
 "$BIN" --print-plan   # resolves everything, launches nothing
 ```

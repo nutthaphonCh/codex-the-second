@@ -58,11 +58,11 @@ jobs:
         run: ./scripts/build.sh
 
       - name: Validate app bundle
-        run: ./scripts/validate-bundle.sh "dist/Codex Personal.app"
+        run: ./scripts/validate-bundle.sh "dist/Codex the 2nd.app"
 
       - name: Verify universal binary
         run: |
-          archs="$(lipo -archs "dist/Codex Personal.app/Contents/MacOS/CodexTheSecond")"
+          archs="$(lipo -archs "dist/Codex the 2nd.app/Contents/MacOS/CodexTheSecond")"
           echo "Architectures: ${archs}"
           for expected in arm64 x86_64; do
             case " ${archs} " in
@@ -76,7 +76,7 @@ jobs:
         # paths that must still behave: reporting nothing installed, and
         # refusing an unknown command.
         run: |
-          CLI="dist/Codex Personal.app/Contents/MacOS/c2nd"
+          CLI="dist/Codex the 2nd.app/Contents/MacOS/c2nd"
           "$CLI" version
           "$CLI" list | tee /tmp/list.txt
           grep -q "No profile launchers installed" /tmp/list.txt

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Builds a profile launcher .app bundle from a profile configuration.
 #
-#   ./scripts/build.sh                      -> dist/Codex Personal.app
+#   ./scripts/build.sh                      -> dist/Codex the 2nd.app
 #   ./scripts/build.sh --profile work       -> dist/Codex Work.app
 #
 # Options:
@@ -14,7 +14,7 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 REPO_ROOT="$PWD"
 
-PROFILE_SLUG="personal"
+PROFILE_SLUG="2nd"
 OUTPUT_DIR="dist"
 ARCH="universal"
 VERSION="$(tr -d '[:space:]' < VERSION)"

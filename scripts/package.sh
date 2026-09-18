@@ -18,7 +18,7 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
-PROFILE_SLUG="personal"
+PROFILE_SLUG="2nd"
 OUTPUT_DIR="dist"
 VERSION="$(tr -d '[:space:]' < VERSION)"
 SKIP_BUILD=0

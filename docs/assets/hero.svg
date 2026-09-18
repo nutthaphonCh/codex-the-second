@@ -258,7 +258,7 @@
       <circle cx="870" cy="310" r="168" fill="url(#haloB)"/>
       <circle cx="870" cy="310" r="84" fill="url(#worldB)"/>
       <circle cx="870" cy="310" r="84" fill="none" stroke="#D8CBFF" stroke-opacity="0.38"/>
-      <text class="sans glyph" x="870" y="310" text-anchor="middle" dominant-baseline="central">CP</text>
+      <text class="sans glyph" x="870" y="310" text-anchor="middle" dominant-baseline="central">2</text>
       <circle cx="682" cy="352" r="5" fill="#C4B4FF" opacity="0.9"/>
     </g>
 
@@ -277,9 +277,9 @@
       <text class="sans note" x="330" y="522" text-anchor="middle" fill="#6F91B5">NEVER TOUCHED</text>
     </g>
     <g>
-      <text class="sans app"  x="870" y="450" text-anchor="middle">Codex Personal.app</text>
+      <text class="sans app"  x="870" y="450" text-anchor="middle">Codex the 2nd.app</text>
       <rect x="745" y="466" width="250" height="36" rx="11" fill="#100B22" stroke="#453A78"/>
-      <text class="mono path" x="870" y="484" text-anchor="middle" dominant-baseline="central">~/.codex-personal</text>
+      <text class="mono path" x="870" y="484" text-anchor="middle" dominant-baseline="central">~/.codex-the-second</text>
       <text class="sans note" x="870" y="522" text-anchor="middle" fill="#9B86E8">CREATED FOR YOU</text>
     </g>
 

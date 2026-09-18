@@ -5,7 +5,7 @@ let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? Stri
 let home = NSHomeDirectory()
 let environment = ProcessInfo.processInfo.environment
 
-func out(_ line: String = "") { print(line) }
+func out(_ line: String = "", terminator: String = "\n") { print(line, terminator: terminator) }
 func err(_ line: String) { FileHandle.standardError.write(Data((line + "\n").utf8)) }
 
 /// A terminal tool reports failures on stderr. It never raises the GUI alert
@@ -110,6 +110,7 @@ func commandLaunch(slug: String) {
         let (resolved, _) = try plan(for: target)
         let profileLauncher = ProfileLauncher()
         try profileLauncher.prepareDirectories(resolved)
+        try ProfileNote().write(resolved, profileName: target.profile.name, homeDirectory: home)
         let process = try profileLauncher.launch(resolved)
         try profileLauncher.checkForEarlyFailure(process, executablePath: resolved.executablePath)
         out("Started \(target.appName) with CODEX_HOME=\(shorten(resolved.codexHome))")
@@ -139,6 +140,35 @@ func commandPlan(slug: String) {
         fail(error)
     } catch {
         fail(error.localizedDescription)
+    }
+}
+
+func commandMigrate(slug: String) {
+    let target = launcher(forSlug: slug)
+    switch ProfileMigration().inspect(profile: target.profile, homeDirectory: home) {
+    case .nothingToDo:
+        out("Nothing to move — \(target.profile.name) is already in place.")
+    case let .blocked(from, to, reason):
+        err("Cannot move \(shorten(from)) to \(shorten(to)).")
+        err(reason)
+        exit(1)
+    case let .available(from, to, byteCount):
+        out("Move \(shorten(from)) to \(shorten(to))?")
+        out("  \(ProfileMigration.describe(byteCount: byteCount)), renamed in place — no copy, no extra disk.")
+        out("")
+        out("Type \"yes\" to continue: ", terminator: "")
+        guard readLine()?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == "yes" else {
+            out("Left alone.")
+            return
+        }
+        do {
+            try ProfileMigration().perform(from: from, to: to)
+            out("Moved. \(target.appName) will use \(shorten(to)).")
+        } catch let error as LauncherError {
+            fail(error)
+        } catch {
+            fail(error.localizedDescription)
+        }
     }
 }
 
@@ -213,6 +243,7 @@ func commandHelp() {
       c2nd list                installed profiles, their folders and state
       c2nd launch <profile>    start that profile
       c2nd plan <profile>      show what would be launched, without launching
+      c2nd migrate <profile>   move a profile folder left by an older version
       c2nd doctor              check Codex, every profile, and its isolation
       c2nd version
 
@@ -253,6 +284,9 @@ case "launch", "run", "start":
 case "plan":
     guard arguments.count >= 2 else { fail("Usage: c2nd plan <profile>") }
     commandPlan(slug: arguments[1])
+case "migrate":
+    guard arguments.count >= 2 else { fail("Usage: c2nd migrate <profile>") }
+    commandMigrate(slug: arguments[1])
 case "doctor":
     commandDoctor()
 case "version", "--version", "-v":
