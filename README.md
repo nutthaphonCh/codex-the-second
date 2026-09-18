@@ -162,7 +162,17 @@ One folder, created on first launch, owner-only (`0700`):
                                                IndexedDB, session data
 ```
 
-Nothing is copied from `~/.codex`. No credentials ever move between profiles.
+The launcher itself copies nothing from `~/.codex` and never reads a
+credential — it only picks the folder and starts Codex.
+
+The **agent running inside** a profile is a separate question, and the default
+answer is still no. A profile can set `allowAuthFromDefaultProfile`, which
+installs a skill telling the agent it may read authentication from `~/.codex`
+**only after asking you, every single time** — and never write there, never
+print a token, and never copy more than the one thing that unblocks you. The
+profile shipped in this repository has it on, because the same person owns both
+accounts. Turn it off in `profiles/2nd.json` and the skill is rewritten to put
+the main profile out of bounds.
 
 **Uninstalling keeps your data.** Deleting `/Applications/Codex the 2nd.app`
 leaves `~/.codex-the-second` alone, so reinstalling puts you right back where you

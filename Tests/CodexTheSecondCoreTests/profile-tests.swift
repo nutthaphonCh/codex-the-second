@@ -38,6 +38,8 @@ struct ProfileTests {
         #expect(profile.electronUserDataPath == "~/.codex-the-second/electron-user-data")
         // Anyone upgrading from an earlier release still has the old folder.
         #expect(profile.migrateFrom == "~/.codex-personal")
+        // An unusual permission must be visible in configuration, not implied.
+        #expect(profile.allowAuthFromDefaultProfile == true)
     }
 
     @Test func roundTripsThroughJSON() throws {

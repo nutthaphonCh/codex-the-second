@@ -10,5 +10,6 @@
     "tintTop": "#7C5CFF",
     "tintBottom": "#2A1B6B"
   },
+  "allowAuthFromDefaultProfile": true,
   "migrateFrom": "~/.codex-personal"
 }

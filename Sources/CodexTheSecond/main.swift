@@ -182,6 +182,7 @@ func run() {
 
         // Tell the agent which profile it is in, so it does not assume ~/.codex.
         try ProfileNote().write(plan, profileName: profile.name, homeDirectory: home)
+        ProfileSkill().write(plan, profile: profile, homeDirectory: home)
         let process = try launcher.launch(plan)
         try launcher.checkForEarlyFailure(process, executablePath: plan.executablePath)
     } catch let error as LauncherError {

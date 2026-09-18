@@ -111,6 +111,7 @@ func commandLaunch(slug: String) {
         let profileLauncher = ProfileLauncher()
         try profileLauncher.prepareDirectories(resolved)
         try ProfileNote().write(resolved, profileName: target.profile.name, homeDirectory: home)
+        ProfileSkill().write(resolved, profile: target.profile, homeDirectory: home)
         let process = try profileLauncher.launch(resolved)
         try profileLauncher.checkForEarlyFailure(process, executablePath: resolved.executablePath)
         out("Started \(target.appName) with CODEX_HOME=\(shorten(resolved.codexHome))")
@@ -215,6 +216,13 @@ func commandDoctor() {
             check("profile valid", launcher.profile.appName, ok: true)
             check("isolated from ~/.codex", shorten(resolved.codexHome), ok: true)
             check("state", isRunning(resolved) ? "running" : "stopped", ok: true)
+            if launcher.profile.allowAuthFromDefaultProfile == true {
+                check(
+                    "auth borrowing",
+                    "allowed from ~/.codex, with consent each time",
+                    ok: true
+                )
+            }
             for directory in resolved.directoriesToCreate {
                 let exists = FileManager.default.fileExists(atPath: directory)
                 check(exists ? "exists" : "not created yet", shorten(directory), ok: true)
